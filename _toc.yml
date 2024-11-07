@@ -1,0 +1,44 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: Multi-Layer Perceptrons
+    chapters:
+      - file: notebooks/1_mlp/linear_layer
+      - file: notebooks/1_mlp/activation_function
+      - file: notebooks/1_mlp/loss_function
+      - file: notebooks/1_mlp/multi-layer_perceptron
+      - file: notebooks/1_mlp/stochastic_gradient_descent
+      - file: notebooks/1_mlp/training_and_evaluation
+      - file: notebooks/1_mlp/visualization
+
+  - caption: Convolutional Neural Networks
+    chapters:
+      - file: notebooks/2_cnn/convolution
+      - file: notebooks/2_cnn/pooling
+      - file: notebooks/2_cnn/batch_normalization
+      - file: notebooks/2_cnn/convolutional_neural_network
+      - file: notebooks/2_cnn/training_and_evaluation
+      - file: notebooks/2_cnn/visualization
+
+  - caption: Vision Transformer
+    chapters:
+      - file: notebooks/3_vit/patch_embedding
+      - file: notebooks/3_vit/positional_embedding
+      - file: notebooks/3_vit/self_attention
+      - file: notebooks/3_vit/layer_normalization
+      - file: notebooks/3_vit/vision_transformer
+      - file: notebooks/3_vit/training_and_evaluation
+
+  - caption: 実践的なテクニック
+    chapters:
+      - file: notebooks/4_practical/weight_decay
+      - file: notebooks/4_practical/data_augmentation
+      - file: notebooks/4_practical/dropout
+      - file: notebooks/4_practical/residual_learning
+      - file: notebooks/4_practical/adamw
+      - file: notebooks/4_practical/lr_scheduler
+      - file: notebooks/4_practical/pretrained_models
+
