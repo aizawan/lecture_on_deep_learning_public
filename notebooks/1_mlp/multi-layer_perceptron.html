@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>多層パーセプロトロン &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/1_mlp/multi-layer_perceptron';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="確率的勾配降下法" href="stochastic_gradient_descent.html" />
+    <link rel="prev" title="損失関数" href="loss_function.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    深層学習の基礎と実践
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Multi-Layer Perceptrons</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="linear_layer.html">線形層</a></li>
+<li class="toctree-l1"><a class="reference internal" href="activation_function.html">活性化関数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loss_function.html">損失関数</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">多層パーセプロトロン</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stochastic_gradient_descent.html">確率的勾配降下法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_and_evaluation.html">学習と評価</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">可視化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Convolutional Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/convolution.html">畳み込み層</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/pooling.html">Pooling層</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/batch_normalization.html">Batch Normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/convolutional_neural_network.html">Convolutional Neural Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/training_and_evaluation.html">学習と評価</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/visualization.html">可視化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Vision Transformer</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/patch_embedding.html">パッチ埋め込み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/positional_embedding.html">Positional Embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/self_attention.html">Self-Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/layer_normalization.html">Layer Normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/vision_transformer.html">Vision Transformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/training_and_evaluation.html">学習と評価</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">実践的なテクニック</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/weight_decay.html">Weight Decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/data_augmentation.html">データ拡張</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/dropout.html">Dropout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/residual_learning.html">残差学習</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/adamw.html">AdamW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/lr_scheduler.html">学習率の調整</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/pretrained_models.html">事前学習済みモデル</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/aizawan/lecture_on_deep_learning_public/blob/main/notebooks/1_mlp/multi-layer_perceptron.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/aizawan/lecture_on_deep_learning_public" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/aizawan/lecture_on_deep_learning_public/issues/new?title=Issue%20on%20page%20%2Fnotebooks/1_mlp/multi-layer_perceptron.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/1_mlp/multi-layer_perceptron.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>多層パーセプロトロン</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>多層パーセプロトロン<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>このノートブックでは，線形層と活性化関数を定義して，多層パーセプトロンを構築する．<strong>多層パーセプトロン（Multi-Layer Perceptron, MLP）</strong> は，線形層による線形変換と活性化関数による非線形変換を組み合わせた層を複数重ねることで多層化し，入力から出力への複雑な非線形マッピングをモデル化する基本的な順伝播型ニューラルネットワークである．</p>
+<p>MLPは一般的に，入力データを特定の次元に変換する入力層（input layer），線形・非線形変換を行う隠れ層（hidden layer），最終的な予測結果を出力する出力層（output layer）から構成される．隠れ層は中間層とも呼ばれる．MLPがこれらの層全てで <span class="math notranslate nohighlight">\(L\)</span> 層あるとき，入力データ <span class="math notranslate nohighlight">\(\boldsymbol{x} \in \mathbb{R}^{B \times D_{in}}\)</span> に対する第<span class="math notranslate nohighlight">\(l\)</span>層目（<span class="math notranslate nohighlight">\(l=1,2,...,L\)</span>) の計算を説明する．</p>
+<p>まず，<span class="math notranslate nohighlight">\(l=1\)</span> である入力層では，入力データ <span class="math notranslate nohighlight">\(\boldsymbol{h}_{0}=\boldsymbol{x}\)</span> を与えられ，次のように線形層によって線形変換される．</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{h}_1 = \boldsymbol{h}_0 \boldsymbol{W}_1^\top + \boldsymbol{b}_1
+\]</div>
+<p>ここで，<span class="math notranslate nohighlight">\(D_{hidden}\)</span> は隠れ層の特徴次元としたとき，重み行列 <span class="math notranslate nohighlight">\(\boldsymbol{W}_1\)</span> の次元は <span class="math notranslate nohighlight">\(D_{hidden} \times D_{in}\)</span> であり，バイアス <span class="math notranslate nohighlight">\(\boldsymbol{b}_1\)</span> は <span class="math notranslate nohighlight">\(D_{hidden}\)</span> 次元の縦ベクトルである．続いて，活性化関数を</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{a}_1 = f(\boldsymbol{h}_1)
+\]</div>
+<p>と適用した後，計算結果 <span class="math notranslate nohighlight">\(\boldsymbol{a}_1\)</span> は第<span class="math notranslate nohighlight">\(l=2\)</span>層の隠れ層に伝播される．この層では，同様に異なる重みとバイアスを持つ線形層と活性化関数が次のように適用される．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\boldsymbol{h}_2 &amp;= \boldsymbol{a}_1 \boldsymbol{W}_2^\top + \boldsymbol{b}_2 \\
+\boldsymbol{a}_2 &amp;= f(\boldsymbol{h}_2)
+\end{align}
+\end{split}\]</div>
+<p>ここでもやはり，重み行列とバイアスの次元に注意されたい．重み行列 <span class="math notranslate nohighlight">\(\boldsymbol{W}_1\)</span> は <span class="math notranslate nohighlight">\(D_{hidden} \times D_{hidden}\)</span> 次元であり，バイアス <span class="math notranslate nohighlight">\(\boldsymbol{b}_2\)</span> は  <span class="math notranslate nohighlight">\(D_{hidden}\)</span> 次元である．ニューラルネットワーク実装時のエラーの大半はこの行列計算時の次元の不一致によるものなので注意されたい．</p>
+<p>隠れ層ではこの計算を繰り返す．したがって，第 <span class="math notranslate nohighlight">\(l\)</span> 層の計算は，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\boldsymbol{h}_l &amp;= \boldsymbol{a}_{l-1} \boldsymbol{W}_l^\top + \boldsymbol{b}_l \\
+\boldsymbol{a}_l &amp;= f(\boldsymbol{h}_l)
+\end{align}
+\end{split}\]</div>
+<p>と書ける．</p>
+<p>そして，第<span class="math notranslate nohighlight">\(L\)</span>層目である出力層では，タスクに応じて適切に設定された出力次元 <span class="math notranslate nohighlight">\(D_{out}\)</span> を持つ重みとバイアス，そして活性化関数 <span class="math notranslate nohighlight">\(f\)</span> によって</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\boldsymbol{h}_{L} &amp;= \boldsymbol{a}_{L-1} \boldsymbol{W}_{L}^\top + \boldsymbol{b}_{L} \\
+\boldsymbol{a}_{L} &amp;= f(\boldsymbol{h}_{L})
+\end{align}
+\end{split}\]</div>
+<p>と計算される．このとき，活性化関数が適用される直前のベクトル <span class="math notranslate nohighlight">\(\boldsymbol{h}_{L}\)</span> をロジットとよび，最終的な結果 <span class="math notranslate nohighlight">\(\boldsymbol{a}_{L}\)</span> を出力値または予測値という．</p>
+<p>そして，ここで変換に利用されるすべてのパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{\theta} = \{\boldsymbol{W}_1, \boldsymbol{b}_1, ..., \boldsymbol{W}_L, \boldsymbol{b}_L \}\)</span> は損失関数の勾配に基づいた誤差逆伝播法によって反復的に更新され，損失関数の誤差を最小とするように最適化される．</p>
+<p>では，<span class="math notranslate nohighlight">\(L=3\)</span> の層数を持ち，隠れ層の活性化関数がReLU関数で，出力層の活性化関数はSigmoid関数の場合のMLPをPyTorchで実装する．</p>
+<p>PyTorchでは <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> でニューラルネットワークの構造をクラスとして次のように定義することが一般的である．その他の実装としては，<code class="docutils literal notranslate"><span class="pre">torch.nn.Sequential</span></code> を使うこともできる．</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> では，基本的に次のように実装する．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">モデル名</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">層の定義</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">順伝播の実装</span>
+</pre></div>
+</div>
+<p>順伝播 <code class="docutils literal notranslate"><span class="pre">forward</span></code> を <code class="docutils literal notranslate"><span class="pre">__init__</span></code> で定義した層を使って定義する．逆伝播はPyTorchの自動微分機能から実行できる．</p>
+<p>以下に，前述したMLPを実装する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+<span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MLP</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer_in</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer_hidden</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer_out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">act_out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_in</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_hidden</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_out</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act_out</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>これを <code class="docutils literal notranslate"><span class="pre">input_dim=3</span></code>，<code class="docutils literal notranslate"><span class="pre">hidden_dim=32</span></code>，<code class="docutils literal notranslate"><span class="pre">output_dim=1</span></code> としてインスタンス化する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_dim</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">hidden_dim</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">output_dim</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>モデルの構造は <code class="docutils literal notranslate"><span class="pre">print</span></code> 等で確認できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MLP(
+  (layer_in): Linear(in_features=3, out_features=32, bias=True)
+  (layer_hidden): Linear(in_features=32, out_features=32, bias=True)
+  (layer_out): Linear(in_features=32, out_features=1, bias=True)
+  (act): ReLU()
+  (act_out): Sigmoid()
+)
+</pre></div>
+</div>
+</div>
+</div>
+<p>出力結果からもわかるように定義された層と活性化関数は確認できるが，伝播の流れは得られないことに注意されたい．</p>
+<p>MLPが正しく構築できているかバグチェックを行うために順伝播をさせる．そのためのランダムの値を持つ入力データを以下で作成する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">input_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">)</span>
+<span class="n">dummy_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">input_size</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dummy_input.shape:&#39;</span><span class="p">,</span> <span class="n">dummy_input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dummy_input = &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dummy_input.shape: torch.Size([3, 3])
+dummy_input = 
+tensor([[-0.3131, -2.3587, -1.1364],
+        [ 0.0132, -0.6620, -0.3753],
+        [-0.3102, -0.3661,  1.1738]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>順伝播は次のように行える．意図した出力が得られているか確認する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;output.shape: &#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;output = &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>output.shape:  torch.Size([3, 1])
+output = 
+tensor([[0.4510],
+        [0.4819],
+        [0.4665]], grad_fn=&lt;SigmoidBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>このときエラーが発生する場合は <code class="docutils literal notranslate"><span class="pre">forward</span></code> 関数内の処理か線形層の入出力の次元を間違えていることが多い．</p>
+<p>MLPのパラメータは <code class="docutils literal notranslate"><span class="pre">model.named_parameters()</span></code> を使って次のように取得できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> shape: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>layer_in.weight shape: torch.Size([32, 3])
+layer_in.bias shape: torch.Size([32])
+layer_hidden.weight shape: torch.Size([32, 32])
+layer_hidden.bias shape: torch.Size([32])
+layer_out.weight shape: torch.Size([1, 32])
+layer_out.bias shape: torch.Size([1])
+</pre></div>
+</div>
+</div>
+</div>
+<p>モデルの層数が多いとGPUのメモリ上にモデルのパラメータを格納できないことがある．そのため，正しく実装できたか，そしてそのニューラルネットワークがGPU上のメモリ量を超えていないかをチェックすることも重要である．</p>
+<p>そこで，上記のコードをベースにMLPの総パラメータ数を計算する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">total_params</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> shape: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">total_params</span> <span class="o">+=</span> <span class="n">param</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total number of trainable parameters: </span><span class="si">{</span><span class="n">total_params</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>layer_in.weight shape: torch.Size([32, 3])
+layer_in.bias shape: torch.Size([32])
+layer_hidden.weight shape: torch.Size([32, 32])
+layer_hidden.bias shape: torch.Size([32])
+layer_out.weight shape: torch.Size([1, 32])
+layer_out.bias shape: torch.Size([1])
+Total number of trainable parameters: 1217
+</pre></div>
+</div>
+</div>
+</div>
+<p>メモリに乗り切らない場合は，モデル並列等を使ってモデルを分割して学習させることもできるが，基本的に，後述するバッチサイズなどを調整してメモリ数を減らすことが多い．</p>
+<p>しかしながら，特に，線形層は多くのパラメータを必要とするのでこのあたりの次元を見直しても良い．</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/1_mlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="loss_function.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">損失関数</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="stochastic_gradient_descent.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">確率的勾配降下法</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,732 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pooling層 &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/2_cnn/pooling';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Batch Normalization" href="batch_normalization.html" />
+    <link rel="prev" title="畳み込み層" href="convolution.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    深層学習の基礎と実践
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Multi-Layer Perceptrons</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/linear_layer.html">線形層</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/activation_function.html">活性化関数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/loss_function.html">損失関数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/multi-layer_perceptron.html">多層パーセプロトロン</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/stochastic_gradient_descent.html">確率的勾配降下法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/training_and_evaluation.html">学習と評価</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/visualization.html">可視化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Convolutional Neural Networks</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="convolution.html">畳み込み層</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pooling層</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_normalization.html">Batch Normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convolutional_neural_network.html">Convolutional Neural Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_and_evaluation.html">学習と評価</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">可視化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Vision Transformer</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/patch_embedding.html">パッチ埋め込み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/positional_embedding.html">Positional Embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/self_attention.html">Self-Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/layer_normalization.html">Layer Normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/vision_transformer.html">Vision Transformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/training_and_evaluation.html">学習と評価</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">実践的なテクニック</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/weight_decay.html">Weight Decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/data_augmentation.html">データ拡張</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/dropout.html">Dropout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/residual_learning.html">残差学習</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/adamw.html">AdamW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/lr_scheduler.html">学習率の調整</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/pretrained_models.html">事前学習済みモデル</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/aizawan/lecture_on_deep_learning_public/blob/main/notebooks/2_cnn/pooling.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/aizawan/lecture_on_deep_learning_public" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/aizawan/lecture_on_deep_learning_public/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2_cnn/pooling.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/2_cnn/pooling.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Pooling層</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Poolingの演算</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-pooling">Max Pooling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#average-pooling">Average Pooling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-average-pooling">Global Average Pooling</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="pooling">
+<h1>Pooling層<a class="headerlink" href="#pooling" title="Link to this heading">#</a></h1>
+<p>このノートブックでは，CNNの重要な構成要素の1つであるプーリング層（Pooling Layer）について説明する．プーリング層は，畳み込み層と組み合わせて用いられ，特徴マップのダウンサンプリングを行うことで計算効率の向上と特徴の位置不変性を実現する．プーリング層は，入力された特徴マップの空間的なサイズを縮小する操作を行う．具体的には，特徴マップの各領域から代表的な値を選択または計算することで，より小さな特徴マップを生成する．この操作によって，パラメータ数と計算量の削減，位置ズレに対する頑健性の向上などの利点がある．</p>
+<section id="id1">
+<h2>Poolingの演算<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>高さが <span class="math notranslate nohighlight">\(H\)</span> で幅が <span class="math notranslate nohighlight">\(W\)</span> のチャネル数 <span class="math notranslate nohighlight">\(C\)</span> の入力特徴マップ <span class="math notranslate nohighlight">\(\boldsymbol{X} \in \mathbb{R}^{H \times W \times C}\)</span> に対して，プーリング演算は以下のように定式化できる：</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j,c} = f_\mathrm{pool}({\boldsymbol{X}_{i \cdot s + a, j \cdot s + b, c} \mid a \in {0,\ldots,k-1}, b \in {0,\ldots,k-1}})
+\]</div>
+<p>Poolingは，畳み込み層のように，固定のフィルタサイズ <span class="math notranslate nohighlight">\(k\)</span> で定義される局所領域をストライド <span class="math notranslate nohighlight">\(s\)</span> で走査しながら，その領域に対してPoolingは特定領域内の情報を集約する処理を行う．このような局所領域に対する演算であるが，畳み込みとは異なり，学習可能なパラメータを持たない．具体的に，関数 <span class="math notranslate nohighlight">\(f_\mathrm{pool}\)</span> は，各領域内の最大値を選択する処理（これを <strong>Max Pooling</strong> とよぶ）や領域内の平均値を選択する処理（これを <strong>Average Pooling</strong> とよぶ）をする．</p>
+<section id="max-pooling">
+<h3>Max Pooling<a class="headerlink" href="#max-pooling" title="Link to this heading">#</a></h3>
+<p><strong>最大値プーリング（Max Pooling）</strong> は各領域内の最大値を代表値として次の層へ伝播する．</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j,c} = \max_{a,b} \boldsymbol{X}_{i \cdot s + a, j \cdot s + b, c}
+\]</div>
+<p>具体例として，<span class="math notranslate nohighlight">\(4 \times 4\)</span> の入力特徴マップ <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> に対して，<span class="math notranslate nohighlight">\(2 \times 2\)</span> のウィンドウサイズでストライド2のMax Poolingを適用する例を考える．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{X} = \begin{bmatrix}
+\textcolor{#0099ff}{1} &amp; \textcolor{#0099ff}{3} &amp; \textcolor{#cc0000}{2} &amp; \textcolor{#cc0000}{5} \\
+\textcolor{#0099ff}{2} &amp; \textcolor{#0099ff}{1} &amp; \textcolor{#cc0000}{4} &amp; \textcolor{#cc0000}{2} \\
+\textcolor{#ffdd33}{5} &amp; \textcolor{#ffdd33}{2} &amp; \textcolor{#009933}{3} &amp; \textcolor{#009933}{1} \\
+\textcolor{#ffdd33}{1} &amp; \textcolor{#ffdd33}{3} &amp; \textcolor{#009933}{2} &amp; \textcolor{#009933}{4}
+\end{bmatrix}
+\end{split}\]</div>
+<p>この入力に対してMax Poolingを適用すると次のようになる（Poolingの領域を色で示した）．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{H} = \begin{bmatrix}
+\textcolor{#0099ff}{3} &amp; \textcolor{#cc0000}{5}  \\
+\textcolor{#ffdd33}{5} &amp; \textcolor{#009933}{4} 
+\end{bmatrix}
+\end{split}\]</div>
+<p>例えば，左上 <span class="math notranslate nohighlight">\((i,j)=(1,1)\)</span> の場合，<span class="math notranslate nohighlight">\(\boldsymbol{H}_{1,1} = \max (1,3,2,1) = 3\)</span> という計算をしている．</p>
+<p>MaxPoolingは次のように利用できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">max_pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">max_pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x.shape:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;h.shape:&#39;</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x.shape: torch.Size([1, 1, 4, 4])
+tensor([[[[1., 3., 2., 5.],
+          [2., 1., 4., 2.],
+          [5., 2., 3., 1.],
+          [1., 3., 2., 4.]]]])
+h.shape: torch.Size([1, 1, 2, 2])
+tensor([[[[3., 5.],
+          [5., 4.]]]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="average-pooling">
+<h3>Average Pooling<a class="headerlink" href="#average-pooling" title="Link to this heading">#</a></h3>
+<p><strong>平均値プーリング（Average Pooling）</strong> は各領域内の平均値を代表値として次の層へ伝播する．</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j,c} = \frac{1}{k^2} \sum_{a=0}^{k-1} \sum_{b=0}^{k-1} \boldsymbol{X}_{i \cdot s + a, j \cdot s + b, c}
+\]</div>
+<p>Max Poolingと同じ <span class="math notranslate nohighlight">\(4 \times 4\)</span> の入力特徴マップ <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> に対して，<span class="math notranslate nohighlight">\(2 \times 2\)</span> のウィンドウサイズでストライド2のAverage Poolingを適用すると次のようになる．</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H} = \begin{bmatrix}
+1.75 &amp; 3.25 \
+2.75 &amp; 2.5
+\end{bmatrix}
+\]</div>
+<p>例えば，左上 <span class="math notranslate nohighlight">\((i,j)=(1,1)\)</span> の場合，<span class="math notranslate nohighlight">\(\boldsymbol{H}_{1,1} = (1+3+2+1)/4 = 1.75\)</span> という計算をしている．</p>
+<p>Average PoolingはPyTorchで次のように利用できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">avg_pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">avg_pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x.shape:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;h.shape:&#39;</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x.shape: torch.Size([1, 1, 4, 4])
+tensor([[[[1., 3., 2., 5.],
+          [2., 1., 4., 2.],
+          [5., 2., 3., 1.],
+          [1., 3., 2., 4.]]]])
+h.shape: torch.Size([1, 1, 2, 2])
+tensor([[[[1.7500, 3.2500],
+          [2.7500, 2.5000]]]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="global-average-pooling">
+<h3>Global Average Pooling<a class="headerlink" href="#global-average-pooling" title="Link to this heading">#</a></h3>
+<p>主に分類タスクにおけるCNNの最後の畳み込み層の出力を線形層に入力する前に使用されるPoolingとして，<strong>Global Average Pooling</strong> がある．これは，特徴マップ全体に対して一つの値を計算する．</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{h}_c = \frac{1}{H \cdot W} \sum_{i=1}^H \sum_{j=1}^W \boldsymbol{X}_{i,j,c}
+\]</div>
+<p>これにより，例えば，特徴マップ <span class="math notranslate nohighlight">\(\boldsymbol{X} \in \mathbb{R}^{H \times W \times C}\)</span> をチャネル数の次元を持つベクトル <span class="math notranslate nohighlight">\(\boldsymbol{X}'\in \mathbb{R}^{C}\)</span> に変換できる．これによって <code class="docutils literal notranslate"><span class="pre">Flatten</span></code> などを利用せずとも，特徴マップをベクトル化できる．</p>
+<p>平均の代わりに最大値を取る <strong>Global Max Pooling</strong> もあるが，平均化の方が一般的である．</p>
+<p>Max Poolingと同じ <span class="math notranslate nohighlight">\(4 \times 4\)</span> の入力特徴マップ <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> に対して，<span class="math notranslate nohighlight">\(2 \times 2\)</span> のウィンドウサイズでストライド2のGlobal Average Poolingを適用すると次のようになる．</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{h} = \frac{1}{16}(1 + 3 + 2 + 5 + 2 + 1 + 4 + 2 + 5 + 2 + 3 + 1 + 1 + 3 + 2 + 4) = 2.5625
+\]</div>
+<p>Global Average PoolingはPyTorchで次のように利用できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_avg_pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="n">output_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">global_avg_pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x.shape:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;h.shape:&#39;</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x.shape: torch.Size([1, 1, 4, 4])
+tensor([[[[1., 3., 2., 5.],
+          [2., 1., 4., 2.],
+          [5., 2., 3., 1.],
+          [1., 3., 2., 4.]]]])
+h.shape: torch.Size([1, 1, 1, 1])
+tensor([[[[2.5625]]]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/2_cnn"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="convolution.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">畳み込み層</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="batch_normalization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Batch Normalization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Poolingの演算</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-pooling">Max Pooling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#average-pooling">Average Pooling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#global-average-pooling">Global Average Pooling</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+Traceback (most recent call last):
+  File "/home/aizawa/miniconda3/envs/ml-py39/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/home/aizawa/miniconda3/envs/ml-py39/lib/python3.9/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/aizawa/miniconda3/envs/ml-py39/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 173, in wrapped
+    return loop.run_until_complete(inner)
+  File "/home/aizawa/miniconda3/envs/ml-py39/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "/home/aizawa/miniconda3/envs/ml-py39/lib/python3.9/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/home/aizawa/miniconda3/envs/ml-py39/lib/python3.9/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/aizawa/miniconda3/envs/ml-py39/lib/python3.9/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import torch
+import torch.nn as nn
+
+class CNN(nn.Module):
+    def __init__(self, in_channels, num_classes):
+        super(CNN, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels, 16, kernel_size=3, stride=1, padding=1)
+        self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1)
+        self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.gap = nn.AdaptiveAvgPool2d(1)
+        self.flatten = nn.Flatten()
+        self.fc = nn.Linear(32, num_classes)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = nn.functional.relu(x)
+        x = self.pool1(x)
+        x = self.conv2(x)
+        x = nn.functional.relu(x)
+        x = self.pool2(x)
+        x = self.gap(x)
+        x = self.flatten(x)
+        x = self.fc(x)
+        return x
+    
+in_channels = 1
+num_classes = 10
+model = CNN(in_channels=in_channels, num_classes=num_classes)
+
+save_path = 'output/model.pth'
+model.load_state_dict(torch.load(save_path))
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [0;32mIn[1], line 32[0m
+[1;32m     29[0m model [38;5;241m=[39m CNN(in_channels[38;5;241m=[39min_channels, num_classes[38;5;241m=[39mnum_classes)
+[1;32m     31[0m save_path [38;5;241m=[39m [38;5;124m'[39m[38;5;124moutput/model.pth[39m[38;5;124m'[39m
+[0;32m---> 32[0m model[38;5;241m.[39mload_state_dict([43mtorch[49m[38;5;241;43m.[39;49m[43mload[49m[43m([49m[43msave_path[49m[43m)[49m)
+[1;32m     34[0m device [38;5;241m=[39m torch[38;5;241m.[39mdevice([38;5;124m"[39m[38;5;124mcuda[39m[38;5;124m"[39m [38;5;28;01mif[39;00m torch[38;5;241m.[39mcuda[38;5;241m.[39mis_available() [38;5;28;01melse[39;00m [38;5;124m"[39m[38;5;124mcpu[39m[38;5;124m"[39m)
+[1;32m     35[0m model[38;5;241m.[39mto(device)
+
+File [0;32m~/miniconda3/envs/ml-py39/lib/python3.9/site-packages/torch/serialization.py:997[0m, in [0;36mload[0;34m(f, map_location, pickle_module, weights_only, mmap, **pickle_load_args)[0m
+[1;32m    994[0m [38;5;28;01mif[39;00m [38;5;124m'[39m[38;5;124mencoding[39m[38;5;124m'[39m [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m pickle_load_args[38;5;241m.[39mkeys():
+[1;32m    995[0m     pickle_load_args[[38;5;124m'[39m[38;5;124mencoding[39m[38;5;124m'[39m] [38;5;241m=[39m [38;5;124m'[39m[38;5;124mutf-8[39m[38;5;124m'[39m
+[0;32m--> 997[0m [38;5;28;01mwith[39;00m [43m_open_file_like[49m[43m([49m[43mf[49m[43m,[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mrb[39;49m[38;5;124;43m'[39;49m[43m)[49m [38;5;28;01mas[39;00m opened_file:
+[1;32m    998[0m     [38;5;28;01mif[39;00m _is_zipfile(opened_file):
+[1;32m    999[0m         [38;5;66;03m# The zipfile reader is going to advance the current file position.[39;00m
+[1;32m   1000[0m         [38;5;66;03m# If we want to actually tail call to torch.jit.load, we need to[39;00m
+[1;32m   1001[0m         [38;5;66;03m# reset back to the original position.[39;00m
+[1;32m   1002[0m         orig_position [38;5;241m=[39m opened_file[38;5;241m.[39mtell()
+
+File [0;32m~/miniconda3/envs/ml-py39/lib/python3.9/site-packages/torch/serialization.py:444[0m, in [0;36m_open_file_like[0;34m(name_or_buffer, mode)[0m
+[1;32m    442[0m [38;5;28;01mdef[39;00m [38;5;21m_open_file_like[39m(name_or_buffer, mode):
+[1;32m    443[0m     [38;5;28;01mif[39;00m _is_path(name_or_buffer):
+[0;32m--> 444[0m         [38;5;28;01mreturn[39;00m [43m_open_file[49m[43m([49m[43mname_or_buffer[49m[43m,[49m[43m [49m[43mmode[49m[43m)[49m
+[1;32m    445[0m     [38;5;28;01melse[39;00m:
+[1;32m    446[0m         [38;5;28;01mif[39;00m [38;5;124m'[39m[38;5;124mw[39m[38;5;124m'[39m [38;5;129;01min[39;00m mode:
+
+File [0;32m~/miniconda3/envs/ml-py39/lib/python3.9/site-packages/torch/serialization.py:425[0m, in [0;36m_open_file.__init__[0;34m(self, name, mode)[0m
+[1;32m    424[0m [38;5;28;01mdef[39;00m [38;5;21m__init__[39m([38;5;28mself[39m, name, mode):
+[0;32m--> 425[0m     [38;5;28msuper[39m()[38;5;241m.[39m[38;5;21m__init__[39m([38;5;28;43mopen[39;49m[43m([49m[43mname[49m[43m,[49m[43m [49m[43mmode[49m[43m)[49m)
+
+[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: 'output/model.pth'
+

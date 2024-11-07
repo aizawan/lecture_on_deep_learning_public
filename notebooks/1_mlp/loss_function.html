@@ -1,0 +1,744 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>損失関数 &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/1_mlp/loss_function';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="多層パーセプロトロン" href="multi-layer_perceptron.html" />
+    <link rel="prev" title="活性化関数" href="activation_function.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    深層学習の基礎と実践
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Multi-Layer Perceptrons</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="linear_layer.html">線形層</a></li>
+<li class="toctree-l1"><a class="reference internal" href="activation_function.html">活性化関数</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">損失関数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi-layer_perceptron.html">多層パーセプロトロン</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stochastic_gradient_descent.html">確率的勾配降下法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_and_evaluation.html">学習と評価</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">可視化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Convolutional Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/convolution.html">畳み込み層</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/pooling.html">Pooling層</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/batch_normalization.html">Batch Normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/convolutional_neural_network.html">Convolutional Neural Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/training_and_evaluation.html">学習と評価</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../2_cnn/visualization.html">可視化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Vision Transformer</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/patch_embedding.html">パッチ埋め込み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/positional_embedding.html">Positional Embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/self_attention.html">Self-Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/layer_normalization.html">Layer Normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/vision_transformer.html">Vision Transformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/training_and_evaluation.html">学習と評価</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">実践的なテクニック</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/weight_decay.html">Weight Decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/data_augmentation.html">データ拡張</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/dropout.html">Dropout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/residual_learning.html">残差学習</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/adamw.html">AdamW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/lr_scheduler.html">学習率の調整</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/pretrained_models.html">事前学習済みモデル</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/aizawan/lecture_on_deep_learning_public/blob/main/notebooks/1_mlp/loss_function.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/aizawan/lecture_on_deep_learning_public" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/aizawan/lecture_on_deep_learning_public/issues/new?title=Issue%20on%20page%20%2Fnotebooks/1_mlp/loss_function.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/1_mlp/loss_function.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>損失関数</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">平均二乗誤差</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">二値交差エントロピー損失関数</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">交差エントロピー損失関数</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">補足: 2クラスの場合の交差エントロピー関数</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>損失関数<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>ニューラルネットワークの学習において，<strong>損失関数（loss function）</strong> はモデルの予測と実際のラベル（正解値）との誤差を測定する関数である．この誤差を最小化するようにモデルのパラメータを誤差逆伝播法で更新することで，モデルが正解値に近い予測を行えるようになる．そのため，損失関数も微分可能である必要があり，解くタスクに応じて適切に設定する必要がある．</p>
+<p>ここでは，回帰のための平均二乗誤差関数（Mean Squared Error），二値分類のための二値交差エントロピー損失関数（Binary Cross Entropy），多クラス分類のための交差エントロピー損失関数（Cross Entropy）について説明する．</p>
+<section id="id2">
+<h2>平均二乗誤差<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><strong>平均二乗誤差（Mean Squared Error, MSE）</strong> は，回帰問題において使用される損失関数である．この損失関数は，モデルが予測した値と目標出力値との間の差を二乗して平均を取ったものであり，モデルの予測が正解からどれだけ離れているかを誤差として定量化する．</p>
+<p><span class="math notranslate nohighlight">\(N\)</span> サンプルある場合のMSEを定式化すると，予測値 <span class="math notranslate nohighlight">\(\hat{y}\)</span> と目標出力 <span class="math notranslate nohighlight">\(y\)</span> としたとき</p>
+<div class="math notranslate nohighlight">
+\[
+L_\text{MSE}(y, \hat{y}) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2
+\]</div>
+<p>として定義される．MSEを利用する際，タスクに応じて出力の範囲を制限することがある．例えば，0-255の値を持つ画像を出力する場合，目標出力である画素値を0-1の値に正規化したうえで，モデルの出力値は0-1の範囲に収めたいのでSigmoid関数を適用することがある．</p>
+<p>MSEの性質を確認するために，<span class="math notranslate nohighlight">\(N=1\)</span> として目標出力が0の場合におけるMSEの値を可視化する．グラフから見てもわかるように，目標出力と同じ値を出力できたとき，つまり <span class="math notranslate nohighlight">\(\hat{y}=0\)</span>，もっとも損失が小さくなっている．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="n">y_hat_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">mse_loss</span> <span class="o">=</span> <span class="p">[</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span> <span class="k">for</span> <span class="n">y_hat</span> <span class="ow">in</span> <span class="n">y_hat_values</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_hat_values</span><span class="p">,</span> <span class="n">mse_loss</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$y = 0$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Predicted Value ($\hat</span><span class="si">{y}</span><span class="s2">$)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Mean Squared Error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;MSE Loss for $y=0$ &quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8ebc254667fa137d3f768ba6e297df0818f69158b533f13dfc3e871df1b4910f.png" src="../../_images/8ebc254667fa137d3f768ba6e297df0818f69158b533f13dfc3e871df1b4910f.png" />
+</div>
+</div>
+<p>PyTorchでは，<code class="docutils literal notranslate"><span class="pre">torch.nn.MSELoss</span></code> や <code class="docutils literal notranslate"><span class="pre">torch.nn.functional.mse_loss</span></code> で実装されているので，プログラムに応じて呼び出せば良い．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+
+<span class="n">mse_loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">mse_loss</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Mean Squared Error Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean Squared Error Loss: 0.1666666716337204
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>二値交差エントロピー損失関数<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p><strong>二値交差エントロピー損失関数（Binary Cross Entropy, BCE）</strong> は2クラス分類問題において用いられる損失関数である．モデルが予測する確率と実際のラベルとの誤差を測定する．</p>
+<p>BCEを定式化すると，パラメータ <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> を持つモデル <span class="math notranslate nohighlight">\(f\)</span> に入力 <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> を与えて得られた予測確率 <span class="math notranslate nohighlight">\(\hat{y} = f(\boldsymbol{x};\boldsymbol{\theta})\)</span> と0または1の確率値が格納されたラベル <span class="math notranslate nohighlight">\(y\)</span> との差を測定する．</p>
+<div class="math notranslate nohighlight">
+\[
+L_\text{BCE}(y, \hat{y}) = -\left\{ y \log(\hat{y}) + (1 - y) \log(1 - \hat{y}) \right\}
+\]</div>
+<p><span class="math notranslate nohighlight">\(y\)</span> は予測確率として扱う必要がある，つまり0から1の間にある必要があるために，二値分類を行う際には，損失を計算する前にSigmoid関数を適用することが多い．</p>
+<p>BCEの性質を確認しておく．グラフを見てもわかるように予測確率が実際のラベルに近い場合（例えば，<span class="math notranslate nohighlight">\(y = 1\)</span> のとき <span class="math notranslate nohighlight">\(\hat{y}\)</span> も1に近い），交差エントロピーの値が小さくなることがわかる．一方で，予測確率が間違っている場合（例えば，<span class="math notranslate nohighlight">\(y = 1\)</span> のとき <span class="math notranslate nohighlight">\(\hat{y}\)</span> が0に近い），交差エントロピーの値が大きくなる。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">binary_cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_hat</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y_hat</span><span class="p">))</span>
+
+<span class="n">y_hat_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">cross_entropy_p1</span> <span class="o">=</span> <span class="p">[</span><span class="n">binary_cross_entropy</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span> <span class="k">for</span> <span class="n">y_hat</span> <span class="ow">in</span> <span class="n">y_hat_values</span><span class="p">]</span>
+<span class="n">cross_entropy_p0</span> <span class="o">=</span> <span class="p">[</span><span class="n">binary_cross_entropy</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span> <span class="k">for</span> <span class="n">y_hat</span> <span class="ow">in</span> <span class="n">y_hat_values</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_hat_values</span><span class="p">,</span> <span class="n">cross_entropy_p1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$y = 1$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_hat_values</span><span class="p">,</span> <span class="n">cross_entropy_p0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$y = 0$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Predicted Probability ($q$)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Binary Cross-Entropy Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/2f31c5baeebfe1ae0aa79299d7f90a5af27537aa64d6c2a2fd9ae2f2297bc77e.png" src="../../_images/2f31c5baeebfe1ae0aa79299d7f90a5af27537aa64d6c2a2fd9ae2f2297bc77e.png" />
+</div>
+</div>
+<p>PyTorchでは，<code class="docutils literal notranslate"><span class="pre">torch.nn.BCELoss</span></code> や <code class="docutils literal notranslate"><span class="pre">torch.nn.functional.binary_cross_entropy</span></code> で実装されているので，プログラムに応じて呼び出せば良い．</p>
+<p>注意点として，<code class="docutils literal notranslate"><span class="pre">y</span></code>を見てもわかるように複数の予測とラベルが与えられており，PyTorchでは各予測に対するBCEを計算して，その平均を返している．これはニューラルネットワークの学習で用いられるミニバッチ学習を想定した実装となっている．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logits</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;z=f(x):&#39;</span><span class="p">,</span> <span class="n">logits</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;y_hat=sigmoid(z):&#39;</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;y:&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">bce_loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">bce_loss</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bce_loss=&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>z=f(x): tensor([ 1.4000, -0.1000,  0.8000])
+y_hat=sigmoid(z): tensor([0.8022, 0.4750, 0.6900])
+y: tensor([1., 0., 1.])
+bce_loss= tensor(0.4120)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>交差エントロピー損失関数<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>BCEは0か1の2値（2クラス）分類であったのに対して，**交差エントロピー損失関数（Cross Entropy, CE）**は3クラス以上の多クラス分類問題において用いられる損失関数である．CEも同様にモデルが予測するクラス確率と実際のクラスラベルとの誤差を測定する．</p>
+<p><span class="math notranslate nohighlight">\(K\)</span> クラス分類におけるCEを定式化すると，各クラス <span class="math notranslate nohighlight">\(1, 2, \dots, K\)</span> 対する予測確率 <span class="math notranslate nohighlight">\(\hat{\boldsymbol{y}}\)</span> とクラスラベル <span class="math notranslate nohighlight">\(\boldsymbol{y}\)</span> との誤差を次の式で計算する．</p>
+<div class="math notranslate nohighlight">
+\[
+L_\text{CE}(\boldsymbol{y}, \hat{\boldsymbol{y}}) = - \sum_{i=1}^{K} y_i \log(\hat{y}_i)
+\]</div>
+<p>ここで，<span class="math notranslate nohighlight">\(y_i\)</span> はクラス <span class="math notranslate nohighlight">\(i\)</span> の正解ラベルであり，通常はone-hotベクトルで表される．<strong>one-hotベクトル</strong> とは，正解クラスが1でその他のクラスが0になるベクトルのことを指す．例えば，3クラス分類においてクラス2が正解であれば，one-hotベクトルは次のようになる：</p>
+<div class="math notranslate nohighlight">
+\[
+y = [0, 1, 0]
+\]</div>
+<p>また，<span class="math notranslate nohighlight">\(\hat{y}_i\)</span> は予測確率であるため，Softmax関数 を適用して，出力を確率分布に変換する必要がある．</p>
+<p>PyTorchでは，<code class="docutils literal notranslate"><span class="pre">torch.nn.CrossEntropyLoss</span></code> や <code class="docutils literal notranslate"><span class="pre">torch.nn.functional.cross_entropy</span></code> で実装されている．これらの関数は，数式とは異なり，<strong>関数の内部で</strong> Softmax関数の適用やone-hotベクトルへの対応を行うので，入力はSoftmaxを適用する前のロジットとone-hotにする前のインデックスで表記されたクラスラベルのベクトルを与えれば良い．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">logits</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]])</span>
+
+<span class="n">ce_loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">ce_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ce_loss = &#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ce_loss =  tensor(0.2797)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id5">
+<h3>補足: 2クラスの場合の交差エントロピー関数<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>2クラスの場合，つまりクラス数が <span class="math notranslate nohighlight">\(K=2\)</span> のとき，正解ラベル <span class="math notranslate nohighlight">\(\boldsymbol{y}\)</span> は <span class="math notranslate nohighlight">\([y_1, y_2]\)</span> で，<span class="math notranslate nohighlight">\(y_1 \in \{0, 1\}\)</span> および <span class="math notranslate nohighlight">\(y_2 = 1 - y_1\)</span> と表せる．また予測確率についても，<span class="math notranslate nohighlight">\(\hat{\boldsymbol{y}}\)</span> は <span class="math notranslate nohighlight">\([\hat{y}_1,\hat{y}_2]\)</span> で，<span class="math notranslate nohighlight">\(\hat{y}_2 = 1 - \hat{y}_1\)</span> と表せる．</p>
+<p>したがって，このときの交差エントロピーは</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+L_\text{CE}(\boldsymbol{y}, \hat{\boldsymbol{y}}) &amp;= - \left( y_1 \log(\hat{y}_1) + y_2 \log(\hat{y}_2) \right) \\
+&amp;= - \left( y_1 \log(\hat{y}_1) + (1 - y_1) \log(1 - \hat{y}_1) \right)
+\end{align}
+\end{split}\]</div>
+<p>であり，2クラスの場合であっても適切に予測の出力を変換すれば交差エントロピー損失を利用しても良い．</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/1_mlp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="activation_function.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">活性化関数</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="multi-layer_perceptron.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">多層パーセプロトロン</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">平均二乗誤差</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">二値交差エントロピー損失関数</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">交差エントロピー損失関数</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">補足: 2クラスの場合の交差エントロピー関数</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

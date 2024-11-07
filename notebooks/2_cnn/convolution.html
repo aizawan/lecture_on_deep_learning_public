@@ -1,0 +1,937 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>畳み込み層 &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/2_cnn/convolution';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Pooling層" href="pooling.html" />
+    <link rel="prev" title="可視化" href="../1_mlp/visualization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    深層学習の基礎と実践
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Multi-Layer Perceptrons</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/linear_layer.html">線形層</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/activation_function.html">活性化関数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/loss_function.html">損失関数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/multi-layer_perceptron.html">多層パーセプロトロン</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/stochastic_gradient_descent.html">確率的勾配降下法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/training_and_evaluation.html">学習と評価</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../1_mlp/visualization.html">可視化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Convolutional Neural Networks</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">畳み込み層</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pooling.html">Pooling層</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_normalization.html">Batch Normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convolutional_neural_network.html">Convolutional Neural Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_and_evaluation.html">学習と評価</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">可視化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Vision Transformer</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/patch_embedding.html">パッチ埋め込み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/positional_embedding.html">Positional Embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/self_attention.html">Self-Attention</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/layer_normalization.html">Layer Normalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/vision_transformer.html">Vision Transformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../3_vit/training_and_evaluation.html">学習と評価</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">実践的なテクニック</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/weight_decay.html">Weight Decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/data_augmentation.html">データ拡張</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/dropout.html">Dropout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/residual_learning.html">残差学習</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/adamw.html">AdamW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/lr_scheduler.html">学習率の調整</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4_practical/pretrained_models.html">事前学習済みモデル</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/aizawan/lecture_on_deep_learning_public/blob/main/notebooks/2_cnn/convolution.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/aizawan/lecture_on_deep_learning_public" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/aizawan/lecture_on_deep_learning_public/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2_cnn/convolution.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/2_cnn/convolution.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>畳み込み層</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">畳み込み層</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">畳み込み層</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">二次元画像と線形層</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">具体例</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">重みの局所性</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">具体例</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">重みの共有化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">ストライド</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">視覚的な理解</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">パディング</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">マルチチャネル化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch">PyTorchにおける畳み込み</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">信号処理における畳み込みとの違い</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>畳み込み層<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>このノートブックでは，畳み込み層の概要を紹介する．</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id2">
+<h1>畳み込み層<a class="headerlink" href="#id2" title="Link to this heading">#</a></h1>
+<p><strong>畳み込みニューラルネットワーク（Convolutional Neural Network, CNN）</strong> は人間の視覚野から着想を得てモデル化されたニューラルネットワークであり，主に画像分野で利用されるニューラルネットワークの一種である．CNNは畳み込み層とPooling層と呼ばれる層から構成され，MLPとは異なり，画像の特性を考慮した変換ができる能力を持っている．ここでは，まず畳み込み層について詳しく見ていく．</p>
+<section id="id3">
+<h2>二次元画像と線形層<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>高さが <span class="math notranslate nohighlight">\(H\)</span> で幅が <span class="math notranslate nohighlight">\(W\)</span> の二次元の画像</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{X} = \begin{bmatrix}
+x_{1,1} &amp; x_{1,2} &amp; \cdots &amp; x_{1, W} \\
+x_{2,1} &amp; x_{2,2} &amp; \cdots &amp; x_{2, W} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+x_{H,1} &amp; x_{H,2} &amp; \cdots &amp; x_{H, W}
+\end{bmatrix} \in \mathbb{R}^{H \times W}
+\end{split}\]</div>
+<p>を入力として与えられることを考える．入力するモデルがMLPの場合，線形層の行列計算からも明らかであるように，ベクトル化して入力する必要がある．画像のベクトル化を，**平坦化操作（<code class="docutils literal notranslate"><span class="pre">Flatten</span></code>）**といい，これは入力画像 <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> の各画素 <span class="math notranslate nohighlight">\(x_{i, j}\)</span> を順番に並べる操作である．</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{x} = \mathrm{Flatten}(\boldsymbol{X}) = \begin{bmatrix} x_{1,1} &amp; x_{1,2} &amp; \cdots &amp; x_{1, W} &amp; x_{2,1} &amp; x_{2,2} &amp; \cdots &amp; x_{H, W} \end{bmatrix}^\top \in \mathbb{R}^{H \cdot W}
+\]</div>
+<p>やや強引であるが画像をベクトルに変換できたので <span class="math notranslate nohighlight">\(D_{in} = H \cdot W\)</span> の入力次元を持つ線形層に入力できる．このときの線形層の出力次元を 出力次元 <span class="math notranslate nohighlight">\(D_{out} = H \cdot W\)</span> としたとき，つまり，入出力が同じになるようにしたとき，その線形層の計算は次のようになる．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+\boldsymbol{h} = \boldsymbol{x} \boldsymbol{W}^\top + \boldsymbol{b}=\begin{bmatrix} h_{1,1} &amp; h_{1,2} &amp; \cdots &amp; h_{1, W} &amp; h_{2,1} &amp; h_{2,2} &amp; \cdots &amp; h_{H, W} \end{bmatrix}^\top \in \mathbb{R}^{H \cdot W}
+\end{align}
+\]</div>
+<p>ここで，<span class="math notranslate nohighlight">\(\boldsymbol{h}\)</span> は出力次元 <span class="math notranslate nohighlight">\(D_{out}\)</span> を持つベクトルであり，<span class="math notranslate nohighlight">\(\boldsymbol{W} \in \mathbb{R}^{D_{out} \times D_{in}}\)</span> は重み行列，<span class="math notranslate nohighlight">\(\boldsymbol{b} \in \mathbb{R}^{D_{out}}\)</span> はバイアス項である．また幅と高さがわかっていれば順番は揃っているので<code class="docutils literal notranslate"><span class="pre">Flatten</span></code>して計算されたベクトル <span class="math notranslate nohighlight">\(\boldsymbol{h}\)</span> を再び画像の形式 <span class="math notranslate nohighlight">\(\boldsymbol{H}\)</span> に戻すこともできる．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{H} = \mathrm{UnFlatten}(\boldsymbol{h}) = \begin{bmatrix}
+h_{1,1} &amp; h_{1,2} &amp; \cdots &amp; h_{1, W} \\
+h_{2,1} &amp; h_{2,2} &amp; \cdots &amp; h_{2, W} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+h_{H,1} &amp; h_{H,2} &amp; \cdots &amp; h_{H, W}
+\end{bmatrix} \in \mathbb{R}^{H \times W}
+\end{split}\]</div>
+<p>では，この線形層の計算を空間的な配置を保ったまま定式化してみよう．つまり，Flatten操作をせずに，<span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> から隠れ層の表現 <span class="math notranslate nohighlight">\(\boldsymbol{H}\)</span> を計算する．ここで，<span class="math notranslate nohighlight">\(\boldsymbol{X}_{i,j}\)</span> と <span class="math notranslate nohighlight">\(\boldsymbol{H}_{i,j}\)</span> を位置 <span class="math notranslate nohighlight">\((i,j)\)</span> における入力画像と隠れ層の表現の値とする．<span class="math notranslate nohighlight">\(\boldsymbol{H}_{i,j}\)</span> の値を計算するために，位置 <span class="math notranslate nohighlight">\((i,j)\)</span> に対応する同じサイズを持つ重み行列 <span class="math notranslate nohighlight">\(\boldsymbol{W}^{(i,j)} \in \mathbb{R}^{H \times W}\)</span> を使って要素ごとの積をとり，同じく位置 <span class="math notranslate nohighlight">\((i,j)\)</span> に対応するバイアス値 <span class="math notranslate nohighlight">\(b_{i,j}\)</span> を足し合わせれば良い．つまり，</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j} = \sum_{k=1}^{H} \sum_{l=1}^{W} \boldsymbol{W}^{(i,j)}_{k,l} \cdot \boldsymbol{X}_{k,l} + b_{i,j}
+\]</div>
+<p>となる．表記を簡略化するために，重み行列を4階のテンソル（多次元配列 <code class="docutils literal notranslate"><span class="pre">array[i][j][k][l]</span></code> のようなもの）で表記すると，</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j} = \sum_{k=1}^{H} \sum_{l=1}^{W} \boldsymbol{W}_{i,j,k,l} \cdot \boldsymbol{X}_{k,l} + b_{i,j}
+\]</div>
+<p>と綺麗に書ける．この式は線形層を画像形式で書き換えたので <span class="math notranslate nohighlight">\(k,l\)</span> の走査範囲が画像全体に渡っている．畳み込み層ではこの走査範囲をある位置から少し離れた領域に対してのみ適用する <strong>重みの局所性</strong> と位置に依存しない重みを持つ <strong>重みの共有化</strong> を備えた演算を行う．</p>
+<section id="id4">
+<h3>具体例<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>畳み込みの局所性の前に，上記の式の具体例を確認する．高さ <span class="math notranslate nohighlight">\(H=3\)</span>，幅 <span class="math notranslate nohighlight">\(W=3\)</span> の二次元画像を考え，位置 <span class="math notranslate nohighlight">\((i,j)=(2,2)\)</span> の場合の数式を書き出す．このとき，入力画像は</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{X} = \begin{bmatrix}
+x_{1,1} &amp; x_{1,2} &amp; x_{1,3} \\
+x_{2,1} &amp; x_{2,2} &amp; x_{2,3} \\
+x_{3,1} &amp; x_{3,2} &amp; x_{3,3}
+\end{bmatrix}
+\end{split}\]</div>
+<p>となる．また，位置 <span class="math notranslate nohighlight">\((i,j)=(2,2)\)</span> に対応する重みは次のように書ける．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{W} = \begin{bmatrix}
+w_{2,2,1,1} &amp; w_{2,2,1,2} &amp; w_{2,2,1,3} \\
+w_{2,2,2,1} &amp; w_{2,2,2,2} &amp; w_{2,2,2,3} \\
+w_{2,2,3,1} &amp; w_{2,2,3,2} &amp; w_{2,2,3,3}
+\end{bmatrix}
+\end{split}\]</div>
+<p>このとき，バイアス値はスカラーなので <span class="math notranslate nohighlight">\(b_{2,2}\)</span> である．位置 <span class="math notranslate nohighlight">\((2,2)\)</span> における隠れ層の出力 <span class="math notranslate nohighlight">\(\boldsymbol{H}_{2,2}\)</span> は，入力画像 <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> の各画素と重み行列 <span class="math notranslate nohighlight">\(\boldsymbol{W}\)</span> の要素の積を計算し，それらをすべて足し合わせた後にバイアス <span class="math notranslate nohighlight">\(b_{2,2}\)</span> を加えるという計算なので，具体的に次のように書ける．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\boldsymbol{H}_{2,2} &amp;= \sum_{k=1}^{3} \sum_{l=1}^{3} \boldsymbol{W}_{2,2,k,l} \cdot \boldsymbol{X}_{k,l} + b_{2,2} \\
+&amp;= w_{2,2,1,1} \cdot x_{1,1} + w_{2,2,1,2} \cdot x_{1,2} + w_{2,2,1,3} \cdot x_{1,3} \\
+&amp;\quad + w_{2,2,2,1} \cdot x_{2,1} + w_{2,2,2,2} \cdot x_{2,2} + w_{2,2,2,3} \cdot x_{2,3} \\
+&amp;\quad + w_{2,2,3,1} \cdot x_{3,1} + w_{2,2,3,2} \cdot x_{3,2} + w_{2,2,3,3} \cdot x_{3,3} + b_{2,2}
+\end{aligned}
+\end{split}\]</div>
+<p>これを <span class="math notranslate nohighlight">\(i=1,...,H\)</span>，<span class="math notranslate nohighlight">\(j=1,...,W\)</span> まで <span class="math notranslate nohighlight">\(\boldsymbol{H}\)</span> の計算を行う．煩雑な計算をしているようだが，現段階の上記の演算は線形層で行なっている演算と同じである．これは次のようにFlattenして考えるとわかる．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{Flatten}(\boldsymbol{X}) = \boldsymbol{x} = \begin{bmatrix} x_{1,1} &amp; x_{1,2} &amp; x_{1,3} &amp; x_{2,1} &amp; x_{2,2} &amp; x_{2,3} &amp; x_{3,1} &amp; x_{3,2} &amp; x_{3,3} \end{bmatrix}^\top \in \mathbb{R}^{9}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{Flatten}(\boldsymbol{W}) = \boldsymbol{w}_{2,2} = \begin{bmatrix} w_{2,2,1,1} &amp; w_{2,2,1,2} &amp; w_{2,2,1,3} &amp; w_{2,2,2,1} &amp; w_{2,2,2,2} &amp; w_{2,2,2,3} &amp; w_{2,2,3,1} &amp; w_{2,2,3,2} &amp; w_{2,2,3,3} \end{bmatrix}^\top \in \mathbb{R}^{9}
+\]</div>
+<p>これは行列の一つの行と列の計算式と同じなので，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\boldsymbol{H}_{2,2} &amp;=\boldsymbol{w}_{2,2} \cdot \boldsymbol{x} + b_{2,2} \\
+&amp;= w_{2,2,1,1} \cdot x_{1,1} + w_{2,2,1,2} \cdot x_{1,2} + w_{2,2,1,3} \cdot x_{1,3} \\
+&amp;\quad + w_{2,2,2,1} \cdot x_{2,1} + w_{2,2,2,2} \cdot x_{2,2} + w_{2,2,2,3} \cdot x_{2,3} \\
+&amp;\quad + w_{2,2,3,1} \cdot x_{3,1} + w_{2,2,3,2} \cdot x_{3,2} + w_{2,2,3,3} \cdot x_{3,3} + b_{2,2}
+\end{align}
+\end{split}\]</div>
+<p>として，これまでの線形層の計算と同じであることがわかる．</p>
+</section>
+</section>
+<section id="id5">
+<h2>重みの局所性<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>重みの局所性を説明するために，前述の2次元画像の線形層の数式における走査変数 <span class="math notranslate nohighlight">\(k,l\)</span> を位置 <span class="math notranslate nohighlight">\((i,j)\)</span> を始点とした範囲に変更する．つまり</p>
+<div class="math notranslate nohighlight">
+\[
+k = i + a, \quad l = j + b
+\]</div>
+<p>とする．補足しておくと，<span class="math notranslate nohighlight">\(k,l\)</span> の開始は位置 <span class="math notranslate nohighlight">\((1,1)\)</span> であった．画像でいうと左上である．上記の表記とすることで，開始位置 <span class="math notranslate nohighlight">\((i,j)\)</span> 基準として重みを定義できる．これを使うと</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j} = \sum_{a} \sum_{b} \boldsymbol{W}_{i,j,i+a,j+b} \cdot \boldsymbol{X}_{i+a,j+b} + b_{i,j}
+\]</div>
+<p>と書ける．ここで，<span class="math notranslate nohighlight">\(a\)</span> と <span class="math notranslate nohighlight">\(b\)</span> を画像サイズよりも小さい値を設定して考える．これにより，位置 <span class="math notranslate nohighlight">\((i, j)\)</span> における隠れ層の表現 <span class="math notranslate nohighlight">\(\boldsymbol{H}_{i,j}\)</span> は，周辺の画素にのみ依存するようになる．また画像中の隣接した画素は相関があることから，画像的な特性も考慮していると言える．これは <strong>重みの局所性</strong> と呼ばれる性質である．</p>
+<section id="id6">
+<h3>具体例<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>例えば，<span class="math notranslate nohighlight">\(a=-1,0,1\)</span> と <span class="math notranslate nohighlight">\(b=-1,0,1\)</span> で考える．そのように設定すると，画像中の一部の領域，つまり位置 <span class="math notranslate nohighlight">\((i, j)\)</span> を中心とした <span class="math notranslate nohighlight">\(3 \times 3\)</span> の局所領域だけに対して重みが適用される．数式で書くと，</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j} = \sum_{a=-1}^{1} \sum_{b=-1}^{1} \boldsymbol{W}_{i,j,2+a,2+b} \cdot \boldsymbol{X}_{2+a,2+b} + b_{i,j}
+\]</div>
+<p>であり，これを展開すると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\boldsymbol{H}_{i,j} &amp;= w_{i,j,1,1} \cdot x_{1,1} + w_{i,j,1,2} \cdot x_{1,2} + w_{i,j,1,3} \cdot x_{1,3} \\
+&amp;\quad + w_{i,j,2,1} \cdot x_{2,1} + w_{i,j,2,2} \cdot x_{2,2} + w_{i,j,2,3} \cdot x_{2,3} \\
+&amp;\quad + w_{i,j,3,1} \cdot x_{3,1} + w_{i,j,3,2} \cdot x_{3,2} + w_{i,j,3,3} \cdot x_{3,3} + b_{i,j}
+\end{align}
+\end{split}\]</div>
+<p>となり，局所的な演算ができていることが確認できる．</p>
+</section>
+</section>
+<section id="id7">
+<h2>重みの共有化<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>ここまでの重み <span class="math notranslate nohighlight">\(\boldsymbol{W}_{i,j,i+a,j+b}\)</span> は位置に依存している．つまり，位置 <span class="math notranslate nohighlight">\((1,1)\)</span> と <span class="math notranslate nohighlight">\((10,10)\)</span> では，それぞれ， <span class="math notranslate nohighlight">\(\boldsymbol{W}_{1,1,1+a,1+b}\)</span> と  <span class="math notranslate nohighlight">\(\boldsymbol{W}_{10,10,10+a,10+b}\)</span> という異なる重みを持っている．<strong>重みの共有化</strong> とは位置に依存しない重み，つまり，</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{W}_{i,j,i+a,j+b} = \boldsymbol{W}_{i+a,j+b}
+\]</div>
+<p>として重みを設計することを意味する．また現状，<span class="math notranslate nohighlight">\(b_{i,j}\)</span> なのでバイアスも位置に依存している．これも位置に依存しないように，</p>
+<div class="math notranslate nohighlight">
+\[
+b_{i,j} = b
+\]</div>
+<p>として設計する．このようにすると，</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j} = \sum_{a} \sum_{b} \boldsymbol{W}_{i+a,j+b} \cdot \boldsymbol{X}_{i+a,j+b} + b
+\]</div>
+<p>となり，どの位置で計算しても同じ重みとバイアスが使われるようになる．このような重み共有化はパラメータ数の削減と <strong>位置不変性</strong> をCNNにもたらす．位置不変性とは，入力に含まれる物体が並行移動したとしても，出力が変わらないような性質である．</p>
+</section>
+<section id="id8">
+<h2>ストライド<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>CNNにおける畳み込みの重要な性質は上記の重みの局所性と共有化である．一般的なCNNではこれらの性質に加えて，ストライドと後述するマルチチャネル化がサポートされている．ここでは，ストライドについて紹介する．<strong>ストライド（stride）</strong> は重みをずらす量を定義する．上式では，<span class="math notranslate nohighlight">\(a,b\)</span> が1ずつ動いているが，ストライド付きの畳み込みでは <span class="math notranslate nohighlight">\(s\)</span> ずつ移動しながら重みを適用することを考える．式で書くと，</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j} = \sum_{a} \sum_{b} \boldsymbol{W}_{i+a,j+b} \cdot \boldsymbol{X}_{i \cdot s+a,j \cdot s+b} + b
+\]</div>
+<p>となる．<span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> 上の <span class="math notranslate nohighlight">\((i,j)\)</span> が <span class="math notranslate nohighlight">\(s=3\)</span> としたとき <span class="math notranslate nohighlight">\((0,0) \rightarrow (3,3) \rightarrow (6,6) \cdots\)</span> と移動していることもわかるように，<span class="math notranslate nohighlight">\(s\)</span> 飛ばしで <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> の値を参照している．ストライドを調整することで，計算回数を減らしたり，出力のサイズを調整することができる．</p>
+</section>
+<section id="id9">
+<h2>視覚的な理解<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<p>ここまでの畳み込みの式を視覚的に理解する．<span class="math notranslate nohighlight">\((H,W)=(5,5)\)</span>の入力と共有化がなされた<span class="math notranslate nohighlight">\((a,b)=(3,3)\)</span>の重みを考える．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{X} = \begin{bmatrix}
+x_{1,1} &amp; x_{1,2} &amp; x_{1,3} &amp; x_{1,4} &amp; x_{1,5} \\
+x_{2,1} &amp; x_{2,2} &amp; x_{2,3} &amp; x_{2,4} &amp; x_{2,5} \\
+x_{3,1} &amp; x_{3,2} &amp; x_{3,3} &amp; x_{3,4} &amp; x_{3,5} \\
+x_{4,1} &amp; x_{4,2} &amp; x_{4,3} &amp; x_{4,4} &amp; x_{4,5} \\
+x_{5,1} &amp; x_{5,2} &amp; x_{5,3} &amp; x_{5,4} &amp; x_{5,5}
+\end{bmatrix},
+\boldsymbol{W} = \begin{bmatrix}
+w_{1,1} &amp; w_{1,2} &amp; w_{1,3} \\
+w_{2,1} &amp; w_{2,2} &amp; w_{2,3} \\
+w_{3,1} &amp; w_{3,2} &amp; w_{3,3}
+\end{bmatrix}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(s=1\)</span>，バイアスを無視して，<span class="math notranslate nohighlight">\(\boldsymbol{H}\)</span> は次の畳み込み演算 <span class="math notranslate nohighlight">\(\boldsymbol{X}*\boldsymbol{W}\)</span> となる．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{X} * \boldsymbol{W}= \begin{bmatrix}
+\textcolor{#0099ff}{x_{1,1}} &amp; \textcolor{#0099ff}{x_{1,2}} &amp; \textcolor{#0099ff}{x_{1,3}} &amp; x_{1,4} &amp; x_{1,5} \\
+\textcolor{#0099ff}{x_{2,1}} &amp; \textcolor{#0099ff}{x_{2,2}} &amp; \textcolor{#0099ff}{x_{2,3}} &amp; x_{2,4} &amp; x_{2,5} \\
+\textcolor{#0099ff}{x_{3,1}} &amp; \textcolor{#0099ff}{x_{3,2}} &amp; \textcolor{#0099ff}{x_{3,3}} &amp; x_{3,4} &amp; x_{3,5} \\
+x_{4,1} &amp; x_{4,2} &amp; x_{4,3} &amp; x_{4,4} &amp; x_{4,5} \\
+x_{5,1} &amp; x_{5,2} &amp; x_{5,3} &amp; x_{5,4} &amp; x_{5,5}
+\end{bmatrix} * \begin{bmatrix}
+\textcolor{#0099ff}{w_{1,1}} &amp; \textcolor{#0099ff}{w_{1,2}} &amp; \textcolor{#0099ff}{w_{1,3}} \\
+\textcolor{#0099ff}{w_{2,1}} &amp; \textcolor{#0099ff}{w_{2,2}} &amp; \textcolor{#0099ff}{w_{2,3}} \\
+\textcolor{#0099ff}{w_{3,1}} &amp; \textcolor{#0099ff}{w_{3,2}} &amp; \textcolor{#0099ff}{w_{3,3}}
+\end{bmatrix}
+= \begin{bmatrix}
+\textcolor{#0099ff}{h_{1,1}} &amp; h_{1,2} &amp; h_{1,3} \\
+h_{2,1} &amp; h_{2,2} &amp; h_{2,3} \\
+h_{3,1} &amp; h_{3,2} &amp; h_{3,3}
+\end{bmatrix}
+\end{split}\]</div>
+<p>青色が実際に行われる計算であり，入力の一部に対してのみ重みが適用されること（重みの局所性）と共通した重みが適用されること（重みの共有化）が確認できるかと思う．この入力上の青色の領域はストライドの大きさで移動量が変わってくる．</p>
+<p>そして，要素単位の計算と内積の形で書けることも紹介した．結果的に，畳み込みは入力に含まれるパターンと重みが表すパターンの内積を計算していることに他ならない．つまり，入力と重みのパターンの類似度を計算していることになる．</p>
+</section>
+<section id="id10">
+<h2>パディング<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<p>上記の例のように重みのサイズやストライド数によっては入出力の解像度が低下することがある．<strong>パディング（Padding）</strong> は入出力の解像度を揃えるために，入力画像の縁に0などの特定の値を埋めて解像度を上げるテクニックである．上記の例を使って，0で値を埋めるゼロパディングを視覚的に説明する．</p>
+<p><span class="math notranslate nohighlight">\((5,5)\)</span> の入力 <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> と <span class="math notranslate nohighlight">\((3,3)\)</span> の重み <span class="math notranslate nohighlight">\(\boldsymbol{W}\)</span> を考える．ここにパディング <span class="math notranslate nohighlight">\(p = 1\)</span> を加えると，入力は次のように拡張される．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{X}' = \begin{bmatrix}
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; x_{1,1} &amp; x_{1,2} &amp; x_{1,3} &amp; x_{1,4} &amp; x_{1,5} &amp; 0 \\
+0 &amp; x_{2,1} &amp; x_{2,2} &amp; x_{2,3} &amp; x_{2,4} &amp; x_{2,5} &amp; 0 \\
+0 &amp; x_{3,1} &amp; x_{3,2} &amp; x_{3,3} &amp; x_{3,4} &amp; x_{3,5} &amp; 0 \\
+0 &amp; x_{4,1} &amp; x_{4,2} &amp; x_{4,3} &amp; x_{4,4} &amp; x_{4,5} &amp; 0 \\
+0 &amp; x_{5,1} &amp; x_{5,2} &amp; x_{5,3} &amp; x_{5,4} &amp; x_{5,5} &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 
+\end{bmatrix}
+\end{split}\]</div>
+<p>この拡張された入力に畳み込み層を適用することで，入出力の解像度が揃う．<span class="math notranslate nohighlight">\(s=1\)</span>のとき，重みが<span class="math notranslate nohighlight">\(3\times 3\)</span>には<span class="math notranslate nohighlight">\(p=1\)</span>，<span class="math notranslate nohighlight">\(5\times 5\)</span>には<span class="math notranslate nohighlight">\(p=2\)</span>と覚えておくと良い．</p>
+</section>
+<section id="id11">
+<h2>マルチチャネル化<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<p>ここまで，説明の簡略化のために，チャネルの概念を無視してきた．一般的にカラー画像の場合，RGBの3チャネルの成分から画像が構成される．つまり，入力は <span class="math notranslate nohighlight">\(C=3\)</span> 枚の <span class="math notranslate nohighlight">\(H \times W\)</span> の行列</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{X} = \begin{bmatrix}
+\boldsymbol{X}^{(1)} \\
+\boldsymbol{X}^{(2)} \\
+\vdots \\
+\boldsymbol{X}^{(C)}
+\end{bmatrix} \in \mathbb{R}^{C \times H \times W}
+\end{split}\]</div>
+<p>として表現される．ここで，<span class="math notranslate nohighlight">\(\boldsymbol{X}^{(c)} \in \mathbb{R}^{H \times W}\)</span> はチャンネル <span class="math notranslate nohighlight">\(c\)</span> における <span class="math notranslate nohighlight">\(H \times W\)</span> の行列であり，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{X}^{(c)} = \begin{bmatrix}
+x_{1,1}^{(c)} &amp; x_{1,2}^{(c)} &amp; \cdots &amp; x_{1, W}^{(c)} \\
+x_{2,1}^{(c)} &amp; x_{2,2}^{(c)} &amp; \cdots &amp; x_{2, W}^{(c)} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+x_{H,1}^{(c)} &amp; x_{H,2}^{(c)} &amp; \cdots &amp; x_{H, W}^{(c)}
+\end{bmatrix}
+\end{split}\]</div>
+<p>である．このような <span class="math notranslate nohighlight">\(c\)</span> チャネルを持つ入力 <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> に対して，<span class="math notranslate nohighlight">\(d\)</span> チャネル持つ隠れ層の表現に変換する畳み込み演算は，</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{H}_{i,j,d} = \sum_{a} \sum_{b} \sum_{c} \boldsymbol{W}_{i+a,j+b,c,d} \cdot \boldsymbol{X}_{i+a,j+b,c} + b_{c,d}
+\]</div>
+<p>と書ける．ここで，<span class="math notranslate nohighlight">\(\boldsymbol{W}\)</span> は入出力のチャネルごとに異なる値を持つ4階のテンソルである．このように表現することで，例えば，あるチャネルでは物体Aを，別のチャネルでは物体Bをというように重みの役割を分散させることができる．</p>
+<p>そして，上記の式が最終的な畳み込み層における演算である．</p>
+</section>
+<section id="pytorch">
+<h2>PyTorchにおける畳み込み<a class="headerlink" href="#pytorch" title="Link to this heading">#</a></h2>
+<p>PyTorchでは以下のように畳み込み層を定義する．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>ここで，</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">in_channels</span></code>: 入力のチャネル数 <span class="math notranslate nohighlight">\(c\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">out_channels</span></code>: 出力のチャネル数 <span class="math notranslate nohighlight">\(d\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kernel_size</span></code>: 重みのサイズ <span class="math notranslate nohighlight">\(a,b\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stride</span></code>: ストライド <span class="math notranslate nohighlight">\(s\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">padding</span></code>: パディング <span class="math notranslate nohighlight">\(p\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bias</span></code>: バイアス項の有無
+である．</p></li>
+</ul>
+<p>ここでは，説明予定のない引数は省略している点に注意されたい．利用する際は，<a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html">リファレンスページ</a>を確認されたい．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x.shape:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;h.shape:&#39;</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x.shape: torch.Size([10, 3, 10, 10])
+h.shape: torch.Size([10, 32, 10, 10])
+</pre></div>
+</div>
+</div>
+</div>
+<p>重みやバイアスには次のようにアクセスできる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weight</span> <span class="o">=</span> <span class="n">conv</span><span class="o">.</span><span class="n">weight</span>
+<span class="n">bias</span> <span class="o">=</span> <span class="n">conv</span><span class="o">.</span><span class="n">bias</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;weight.shape:&#39;</span><span class="p">,</span> <span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;bias.shape:&#39;</span><span class="p">,</span> <span class="n">bias</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weight.shape: torch.Size([32, 3, 3, 3])
+bias.shape: torch.Size([32])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id12">
+<h2>信号処理における畳み込みとの違い<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<p><strong>畳み込み（Convolution）</strong> とは，信号を処理するための基本的な演算であり，入力信号にカーネルと呼ばれるフィルタを適用することで，入力信号の特定の特徴を抽出したり、平滑化やエッジ検出などの処理を実現できる．</p>
+<p>連続信号における畳み込みは，変数 <span class="math notranslate nohighlight">\(z\)</span> に関する2つの関数 <span class="math notranslate nohighlight">\(f(x)\)</span> と <span class="math notranslate nohighlight">\(g(x)\)</span> の畳み込み <span class="math notranslate nohighlight">\((f * g)(x)\)</span> は</p>
+<div class="math notranslate nohighlight">
+\[
+(f * g)(x) = \int_{-\infty}^{\infty} f(z) \cdot g(x - z) dz
+\]</div>
+<p>として定義される．この式は，積分の中で見ると，関数 <span class="math notranslate nohighlight">\(g(z)\)</span> を反転させ，さらに <span class="math notranslate nohighlight">\(x\)</span> だけシフトした状態で <span class="math notranslate nohighlight">\(f(z)\)</span> との積を積分する操作を意味している．</p>
+<p>一方で，離散的な信号 <span class="math notranslate nohighlight">\(f[n]\)</span> と <span class="math notranslate nohighlight">\(g[n]\)</span> に対する畳み込み <span class="math notranslate nohighlight">\((f * g)[n]\)</span> は次のように定義されていた．</p>
+<div class="math notranslate nohighlight">
+\[
+(f * g)[n] = \sum_{k=-\infty}^{\infty} f[k] \cdot g[n - k]
+\]</div>
+<p>この式も総和の中で見ると，<span class="math notranslate nohighlight">\(g[k]\)</span> を反転およびシフトして <span class="math notranslate nohighlight">\(f[k]\)</span> との積の総和を求める操作を意味している．連続・離散信号ともに反転させた信号に対して積和計算を行うものが信号処理における畳み込みである．しかしながら，前述したように，CNNにおける畳み込み層は反転せずに積和計算をしている．これは <strong>相互相関関数（Cross Correlation）</strong> と呼ばれる処理である．</p>
+<div class="math notranslate nohighlight">
+\[
+(f * g)(x) = \int_{-\infty}^{\infty} f(z) \cdot g(z + x) dz
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+(f * g)[n] = \sum_{k=-\infty}^{\infty} f[k] \cdot g[k + n]
+\]</div>
+<p>また関数 <span class="math notranslate nohighlight">\(g\)</span> が点対称であれば同一の演算であるが，厳密には異なることに注意されたい．</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/2_cnn"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../1_mlp/visualization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">可視化</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pooling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Pooling層</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">畳み込み層</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">畳み込み層</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">二次元画像と線形層</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">具体例</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">重みの局所性</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">具体例</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">重みの共有化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">ストライド</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">視覚的な理解</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">パディング</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">マルチチャネル化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch">PyTorchにおける畳み込み</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">信号処理における畳み込みとの違い</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
