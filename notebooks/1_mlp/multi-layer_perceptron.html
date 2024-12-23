@@ -450,7 +450,7 @@
 \boldsymbol{a}_2 &amp;= f(\boldsymbol{h}_2)
 \end{align}
 \end{split}\]</div>
-<p>ここでもやはり，重み行列とバイアスの次元に注意されたい．重み行列 <span class="math notranslate nohighlight">\(\boldsymbol{W}_1\)</span> は <span class="math notranslate nohighlight">\(D_{hidden} \times D_{hidden}\)</span> 次元であり，バイアス <span class="math notranslate nohighlight">\(\boldsymbol{b}_2\)</span> は  <span class="math notranslate nohighlight">\(D_{hidden}\)</span> 次元である．ニューラルネットワーク実装時のエラーの大半はこの行列計算時の次元の不一致によるものなので注意されたい．</p>
+<p>ここでもやはり，重み行列とバイアスの次元に注意されたい．重み行列 <span class="math notranslate nohighlight">\(\boldsymbol{W}_2\)</span> は <span class="math notranslate nohighlight">\(D_{hidden} \times D_{hidden}\)</span> 次元であり，バイアス <span class="math notranslate nohighlight">\(\boldsymbol{b}_2\)</span> は  <span class="math notranslate nohighlight">\(D_{hidden}\)</span> 次元である．ニューラルネットワーク実装時のエラーの大半はこの行列計算時の次元の不一致によるものなので注意されたい．</p>
 <p>隠れ層ではこの計算を繰り返す．したがって，第 <span class="math notranslate nohighlight">\(l\)</span> 層の計算は，</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -558,9 +558,9 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dummy_input.shape: torch.Size([3, 3])
 dummy_input = 
-tensor([[-0.3131, -2.3587, -1.1364],
-        [ 0.0132, -0.6620, -0.3753],
-        [-0.3102, -0.3661,  1.1738]])
+tensor([[-0.1588, -0.5132,  0.0125],
+        [-0.6872, -0.3174, -1.3858],
+        [-0.3216, -0.0946,  0.3494]])
 </pre></div>
 </div>
 </div>
@@ -579,9 +579,9 @@ tensor([[-0.3131, -2.3587, -1.1364],
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>output.shape:  torch.Size([3, 1])
 output = 
-tensor([[0.4510],
-        [0.4819],
-        [0.4665]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.5154],
+        [0.5194],
+        [0.5186]], grad_fn=&lt;SigmoidBackward0&gt;)
 </pre></div>
 </div>
 </div>

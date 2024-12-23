@@ -503,7 +503,7 @@ h_{B1} &amp; h_{B2} &amp; \cdots &amp; h_{BD_{out}}
 <p>となる．色をつけた出力行列 <span class="math notranslate nohighlight">\(\boldsymbol{h}\)</span> の要素 <span class="math notranslate nohighlight">\(h_{11}\)</span> は，入力行列 <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> の第1行と，転置された重み行列 <span class="math notranslate nohighlight">\(\boldsymbol{W}^\top\)</span> の第1列の各要素の積の総和に，バイアス項 <span class="math notranslate nohighlight">\(b_1\)</span> を加えたものとして表され，</p>
 <div class="math notranslate nohighlight">
 \[
-h_{11} = x_{11} w_{11} + x_{12} w_{21} + x_{13} w_{31} + \cdots + x_{1D_{in}} w_{D_{in}1} + b_1
+h_{11} = x_{11} w_{11} + x_{12} w_{12} + x_{13} w_{13} + \cdots + x_{1D_{in}} w_{1D_{in}} + b_1
 \]</div>
 <p>と書ける．これは一つの入力ベクトル <span class="math notranslate nohighlight">\(\boldsymbol{x}_1\)</span> と対応する結合重み <span class="math notranslate nohighlight">\(\boldsymbol{w}_1\)</span> との内積とも解釈できる．</p>
 <div class="math notranslate nohighlight">
@@ -541,8 +541,8 @@ h_{11} = (\boldsymbol{x}_1, \boldsymbol{w}_1) + b_1
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parameter containing:
-tensor([[ 0.2710,  0.2389, -0.0732],
-        [ 0.3176, -0.2832,  0.0871]], requires_grad=True)
+tensor([[ 0.2635, -0.2122,  0.4725],
+        [ 0.5113, -0.5588,  0.3909]], requires_grad=True)
 </pre></div>
 </div>
 </div>
@@ -555,7 +555,7 @@ tensor([[ 0.2710,  0.2389, -0.0732],
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parameter containing:
-tensor([ 0.3060, -0.4533], requires_grad=True)
+tensor([-0.4108, -0.1179], requires_grad=True)
 </pre></div>
 </div>
 </div>

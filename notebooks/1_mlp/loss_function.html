@@ -453,7 +453,7 @@
 <p><span class="math notranslate nohighlight">\(N\)</span> サンプルある場合のMSEを定式化すると，予測値 <span class="math notranslate nohighlight">\(\hat{y}\)</span> と目標出力 <span class="math notranslate nohighlight">\(y\)</span> としたとき</p>
 <div class="math notranslate nohighlight">
 \[
-L_\text{MSE}(y, \hat{y}) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2
+\ell_\text{MSE}(y, \hat{y}) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2
 \]</div>
 <p>として定義される．MSEを利用する際，タスクに応じて出力の範囲を制限することがある．例えば，0-255の値を持つ画像を出力する場合，目標出力である画素値を0-1の値に正規化したうえで，モデルの出力値は0-1の範囲に収めたいのでSigmoid関数を適用することがある．</p>
 <p>MSEの性質を確認するために，<span class="math notranslate nohighlight">\(N=1\)</span> として目標出力が0の場合におけるMSEの値を可視化する．グラフから見てもわかるように，目標出力と同じ値を出力できたとき，つまり <span class="math notranslate nohighlight">\(\hat{y}=0\)</span>，もっとも損失が小さくなっている．</p>
@@ -570,11 +570,11 @@ bce_loss= tensor(0.4120)
 </section>
 <section id="id4">
 <h2>交差エントロピー損失関数<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
-<p>BCEは0か1の2値（2クラス）分類であったのに対して，**交差エントロピー損失関数（Cross Entropy, CE）**は3クラス以上の多クラス分類問題において用いられる損失関数である．CEも同様にモデルが予測するクラス確率と実際のクラスラベルとの誤差を測定する．</p>
+<p>BCEは0か1の2値（2クラス）分類であったのに対して，<strong>交差エントロピー損失関数（Cross Entropy, CE）</strong> は3クラス以上の多クラス分類問題において用いられる損失関数である．CEも同様にモデルが予測するクラス確率と実際のクラスラベルとの誤差を測定する．</p>
 <p><span class="math notranslate nohighlight">\(K\)</span> クラス分類におけるCEを定式化すると，各クラス <span class="math notranslate nohighlight">\(1, 2, \dots, K\)</span> 対する予測確率 <span class="math notranslate nohighlight">\(\hat{\boldsymbol{y}}\)</span> とクラスラベル <span class="math notranslate nohighlight">\(\boldsymbol{y}\)</span> との誤差を次の式で計算する．</p>
 <div class="math notranslate nohighlight">
 \[
-L_\text{CE}(\boldsymbol{y}, \hat{\boldsymbol{y}}) = - \sum_{i=1}^{K} y_i \log(\hat{y}_i)
+\ell_\text{CE}(\boldsymbol{y}, \hat{\boldsymbol{y}}) = - \sum_{i=1}^{K} y_i \log(\hat{y}_i)
 \]</div>
 <p>ここで，<span class="math notranslate nohighlight">\(y_i\)</span> はクラス <span class="math notranslate nohighlight">\(i\)</span> の正解ラベルであり，通常はone-hotベクトルで表される．<strong>one-hotベクトル</strong> とは，正解クラスが1でその他のクラスが0になるベクトルのことを指す．例えば，3クラス分類においてクラス2が正解であれば，one-hotベクトルは次のようになる：</p>
 <div class="math notranslate nohighlight">
@@ -607,7 +607,7 @@ y = [0, 1, 0]
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-L_\text{CE}(\boldsymbol{y}, \hat{\boldsymbol{y}}) &amp;= - \left( y_1 \log(\hat{y}_1) + y_2 \log(\hat{y}_2) \right) \\
+\ell_\text{CE}(\boldsymbol{y}, \hat{\boldsymbol{y}}) &amp;= - \left( y_1 \log(\hat{y}_1) + y_2 \log(\hat{y}_2) \right) \\
 &amp;= - \left( y_1 \log(\hat{y}_1) + (1 - y_1) \log(1 - \hat{y}_1) \right)
 \end{align}
 \end{split}\]</div>

@@ -447,23 +447,23 @@
 <p>そこで，このノートブックでは，ニューラルネットワークでは損失関数を最小化するために，その関数の勾配を利用して，パラメータを更新していく勾配降下法を使う．</p>
 <section id="id2">
 <h2>勾配降下法によるパラメータ更新<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
-<p>ここではパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\in\mathbb{R}^{D}\)</span> について，損失関数 <span class="math notranslate nohighlight">\(L(\boldsymbol{\theta})\)</span> を最小にするパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{\theta}^\ast\)</span> を求めたい．これは</p>
+<p>ここではパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\in\mathbb{R}^{D}\)</span> について，損失関数 <span class="math notranslate nohighlight">\(\ell(\boldsymbol{\theta})\)</span> を最小にするパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{\theta}^\ast\)</span> を求めたい．これは</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{\theta}^\ast = \underset{\boldsymbol{\theta}} {\operatorname{argmin}} L(\boldsymbol{\theta})
+\boldsymbol{\theta}^\ast = \underset{\boldsymbol{\theta}} {\operatorname{argmin}} \ell(\boldsymbol{\theta})
 \]</div>
 <p>と書くことができる．</p>
 <p><strong>勾配降下法（Gradient Descent）</strong> はこのパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{\theta}^\ast\)</span> を反復的な更新から求めるアルゴリズムである．反復をパラメータの更新回数 <span class="math notranslate nohighlight">\(t=0,1,2,...\)</span> で，そのときのパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{\theta}^{(t)}\)</span> とする．このとき，勾配降下法は次のように定式化できる．</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{\theta}^{(t+1)}=\boldsymbol{\theta}^{(t)}-\eta \nabla L\left(\boldsymbol{\theta}^{(t)}\right)
+\boldsymbol{\theta}^{(t+1)}=\boldsymbol{\theta}^{(t)}-\eta \nabla \ell\left(\boldsymbol{\theta}^{(t)}\right)
 \]</div>
-<p>このとき <span class="math notranslate nohighlight">\(\eta\)</span> は更新幅を定める <strong>学習率（Learning Rate）</strong> と呼ばれるパラメータであり，<span class="math notranslate nohighlight">\(\nabla L\left(\boldsymbol{\theta}^{(t)}\right)\)</span> は <span class="math notranslate nohighlight">\(t\)</span> ステップ目の損失関数のパラメータに対する勾配である．勾配は損失関数をパラメータで偏微分したものであった．</p>
+<p>このとき <span class="math notranslate nohighlight">\(\eta\)</span> は更新幅を定める <strong>学習率（Learning Rate）</strong> と呼ばれるパラメータであり，<span class="math notranslate nohighlight">\(\nabla \ell\left(\boldsymbol{\theta}^{(t)}\right)\)</span> は <span class="math notranslate nohighlight">\(t\)</span> ステップ目の損失関数のパラメータに対する勾配である．勾配は損失関数をパラメータで偏微分したものであった．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-\nabla L(\boldsymbol{\theta}) &amp; =\frac{\partial L(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \\
-&amp; \equiv\left(\frac{\partial L(\boldsymbol{\theta})}{\partial \theta_1}, \cdots, \frac{\partial L(\boldsymbol{\theta})}{\partial \theta_D}\right)^{\top}
+\nabla \ell(\boldsymbol{\theta}) &amp; =\frac{\partial \ell(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \\
+&amp; \equiv\left(\frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_1}, \cdots, \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_D}\right)^{\top}
 \end{align}
 \end{split}\]</div>
 <p>つまりは勾配の逆方向に従ってパラメータを更新すると損失関数を最小とするパラメータが得られるという話である．</p>
@@ -519,7 +519,7 @@ f(\boldsymbol{x}) = \frac{x_{1}^{2} + 4x_{2}^{2}}{2}
 <p>勾配計算ができたので，今回の例における勾配降下法</p>
 <div class="math notranslate nohighlight">
 \[
-\boldsymbol{x}^{(t+1)}=\boldsymbol{x}^{(t)}-\eta \nabla L\left(\boldsymbol{x}^{(t)}\right)
+\boldsymbol{x}^{(t+1)}=\boldsymbol{x}^{(t)}-\eta \nabla \ell\left(\boldsymbol{x}^{(t)}\right)
 \]</div>
 <p>は，次のように実装できる．</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span>
@@ -597,10 +597,10 @@ f(\boldsymbol{x}) = \frac{x_{1}^{2} + 4x_{2}^{2}}{2}
 </section>
 <section id="mlp">
 <h2>MLPの勾配計算とパラメータ更新の実行<a class="headerlink" href="#mlp" title="Link to this heading">#</a></h2>
-<p>勾配降下法は局所解に陥りやすく，深層学習のような膨大なパラメータを持つニューラルネットワークを大規模なデータセットから学習するために，勾配降下法を利用することは，メモリ的に非現実的である．そこで損失関数を全サンプルから計算するのではなくランダムにサンプリングした部分集合 <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> から計算する勾配法が利用される．<span class="math notranslate nohighlight">\(t\)</span> ステップ目の部分集合を <span class="math notranslate nohighlight">\(\mathcal{B}^(t)\)</span> としたとき損失関数は以下のように書ける．</p>
+<p>勾配降下法は局所解に陥りやすく，深層学習のような膨大なパラメータを持つニューラルネットワークを大規模なデータセットから学習するために，勾配降下法を利用することは，メモリ的に非現実的である．そこで損失関数を全サンプルから計算するのではなくランダムにサンプリングした部分集合 <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> から計算する勾配法が利用される．<span class="math notranslate nohighlight">\(t\)</span> ステップ目の部分集合を <span class="math notranslate nohighlight">\(\mathcal{B}^{(t)}\)</span> としたとき損失関数は以下のように書ける．</p>
 <div class="math notranslate nohighlight">
 \[
-L^{(t)}(\boldsymbol{\theta})=\frac{1}{\left|\mathcal{B}^{(t)}\right|} \sum_{n \in \mathcal{B}^{(t)}} L_n(\boldsymbol{\theta})
+\ell^{(t)}(\boldsymbol{\theta})=\frac{1}{\left|\mathcal{B}^{(t)}\right|} \sum_{n \in \mathcal{B}^{(t)}} \ell_n(\boldsymbol{\theta})
 \]</div>
 <p>このとき，<span class="math notranslate nohighlight">\(\left|\mathcal{B}^{(t)}\right|\)</span> は部分集合に含まれるサンプル数を示す．<span class="math notranslate nohighlight">\(\left|\mathcal{B}^{(t)}\right|=1\)</span> またはサンプル数が小さい値のとき <strong>確率的勾配降下法（Stochastic Gradient Descent）</strong> と呼ばれる．確率的勾配降下法は特にニューラルネットワークの学習などパラメータ数 <span class="math notranslate nohighlight">\(D\)</span> が多いとき局所解の回避だけでなく計算効率的な側面から見ても全サンプルを利用する勾配降下法と比較して効果的である．</p>
 <p>構築したMLPで勾配計算とパラメータ更新を行う．まずMLPの作成とダミーデータの作成を行う．</p>
@@ -647,7 +647,7 @@ L^{(t)}(\boldsymbol{\theta})=\frac{1}{\left|\mathcal{B}^{(t)}\right|} \sum_{n \i
 <p>そして，二乗誤差関数の設定をする．全体の学習用コードは次の資料で説明するので，ここでは，MLPにおける勾配計算と更新方法を確認するために，適当な入力から出力が0に近づくような平均二乗誤差関数を損失関数として設定する．つまり，サンプル数（ミニバッチ数）<span class="math notranslate nohighlight">\(N=1\)</span> で，MLPの予測値 <span class="math notranslate nohighlight">\(\hat{y}\)</span> と目標出力 <span class="math notranslate nohighlight">\(y=0\)</span> とした</p>
 <div class="math notranslate nohighlight">
 \[
-L_\text{MSE}(y, \hat{y}) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2 = \hat{y}_i^2
+\ell_\text{MSE}(y, \hat{y}) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2 = \hat{y}_i^2
 \]</div>
 <p>を損失（<code class="docutils literal notranslate"><span class="pre">loss</span></code>）として計算する．</p>
 <div class="cell docutils container">
@@ -665,9 +665,9 @@ L_\text{MSE}(y, \hat{y}) = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2 = \hat
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>y_hat: tensor([[0.5526]], grad_fn=&lt;SigmoidBackward0&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>y_hat: tensor([[0.5003]], grad_fn=&lt;SigmoidBackward0&gt;)
 y: tensor([[0.]])
-loss = 0.30534306168556213
+loss = 0.2502864897251129
 </pre></div>
 </div>
 </div>
