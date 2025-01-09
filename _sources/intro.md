@@ -14,6 +14,7 @@
 
 
 **参考資料**
+- 瀧雅人, "これならわかる深層学習入門"
 - Chris Bishop and Hugh Bishop, "Deep Learning: Foundations and Concepts"
 - Ian Goodfellow, Yoshua Bengio, and Aaron Courville, "Deep Learning"
 - 山本 晋太郎ら, "Vision Transformer入門"

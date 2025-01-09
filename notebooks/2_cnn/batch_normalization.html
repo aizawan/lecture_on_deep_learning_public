@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Batch Normalization &#8212; My sample book</title>
+    <title>Batch Normalization &#8212; 情報科学演習</title>
   
   
   
@@ -148,8 +148,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="情報科学演習 - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="情報科学演習 - Home"/>
   
   
 </a></div>
@@ -456,8 +456,8 @@ f_{BN}(\boldsymbol{x})=N(\boldsymbol{x})\gamma + \beta
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-\boldsymbol{\mu}_\text{running} &amp;= (1 - \alpha)\boldsymbol{\mu}_\text{running} + \alpha\boldsymbol{\mu}_\text{batch} \\
-\boldsymbol{\sigma}^2_\text{running} &amp;= (1 - \alpha)\boldsymbol{\sigma}^2_\text{running} + \alpha\boldsymbol{\sigma}^2_\text{batch}
+\mu_\text{running} &amp;= (1 - \alpha)\mu_\text{running} + \alpha \mu_\text{batch} \\
+\sigma^2_\text{running} &amp;= (1 - \alpha) \sigma^2_\text{running} + \alpha \sigma^2_\text{batch}
 \end{align}
 \end{split}\]</div>
 <p>ここで，<span class="math notranslate nohighlight">\(\alpha\)</span> は移動平均の更新率を表すハイパーパラメータである．</p>
@@ -553,7 +553,7 @@ h.shape: torch.Size([10, 3, 5, 5])
   <div class="footer-item">
     
 <p class="component-author">
-By The Jupyter Book Community
+By Hiroaki Aizawa
 </p>
 
   </div>

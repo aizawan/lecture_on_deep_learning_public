@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Pooling層 &#8212; My sample book</title>
+    <title>Pooling層 &#8212; 情報科学演習</title>
   
   
   
@@ -148,8 +148,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="情報科学演習 - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="情報科学演習 - Home"/>
   
   
 </a></div>
@@ -446,6 +446,7 @@
   <section class="tex2jax_ignore mathjax_ignore" id="pooling">
 <h1>Pooling層<a class="headerlink" href="#pooling" title="Link to this heading">#</a></h1>
 <p>このノートブックでは，CNNの重要な構成要素の1つであるプーリング層（Pooling Layer）について説明する．プーリング層は，畳み込み層と組み合わせて用いられ，特徴マップのダウンサンプリングを行うことで計算効率の向上と特徴の位置不変性を実現する．プーリング層は，入力された特徴マップの空間的なサイズを縮小する操作を行う．具体的には，特徴マップの各領域から代表的な値を選択または計算することで，より小さな特徴マップを生成する．この操作によって，パラメータ数と計算量の削減，位置ズレに対する頑健性の向上などの利点がある．</p>
+<a class="reference internal image-reference" href="../../_images/fig_pool.png"><img alt="../../_images/fig_pool.png" class="align-center" src="../../_images/fig_pool.png" style="width: 50%;" /></a>
 <section id="id1">
 <h2>Poolingの演算<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>高さが <span class="math notranslate nohighlight">\(H\)</span> で幅が <span class="math notranslate nohighlight">\(W\)</span> のチャネル数 <span class="math notranslate nohighlight">\(C\)</span> の入力特徴マップ <span class="math notranslate nohighlight">\(\boldsymbol{X} \in \mathbb{R}^{H \times W \times C}\)</span> に対して，プーリング演算は以下のように定式化できる：</p>
@@ -563,12 +564,15 @@ tensor([[[[1.7500, 3.2500],
 </section>
 <section id="global-average-pooling">
 <h3>Global Average Pooling<a class="headerlink" href="#global-average-pooling" title="Link to this heading">#</a></h3>
-<p>主に分類タスクにおけるCNNの最後の畳み込み層の出力を線形層に入力する前に使用されるPoolingとして，<strong>Global Average Pooling</strong> がある．これは，特徴マップ全体に対して一つの値を計算する．</p>
+<p>主に分類タスクにおけるCNNの最後の畳み込み層の出力を線形層に入力する前に使用されるPoolingとして，<strong>Global Average Pooling</strong> がある．通常，畳み込みから線形層への変換は，画像で扱ったように，</p>
+<a class="reference internal image-reference" href="../../_images/fig_feature_flatten.png"><img alt="../../_images/fig_feature_flatten.png" class="align-center" src="../../_images/fig_feature_flatten.png" style="width: 50%;" /></a>
+<p>と解像度に依存するFlatten処理がシンプルな実装として考えることができる．GAPはこれを解像度に依存せずに変換できる．まずこの処理は，特徴マップ全体に対して一つの値を計算する．</p>
 <div class="math notranslate nohighlight">
 \[
 \boldsymbol{h}_c = \frac{1}{H \cdot W} \sum_{i=1}^H \sum_{j=1}^W \boldsymbol{X}_{i,j,c}
 \]</div>
 <p>これにより，例えば，特徴マップ <span class="math notranslate nohighlight">\(\boldsymbol{X} \in \mathbb{R}^{H \times W \times C}\)</span> をチャネル数の次元を持つベクトル <span class="math notranslate nohighlight">\(\boldsymbol{X}'\in \mathbb{R}^{C}\)</span> に変換できる．これによって <code class="docutils literal notranslate"><span class="pre">Flatten</span></code> などを利用せずとも，特徴マップをベクトル化できる．</p>
+<a class="reference internal image-reference" href="../../_images/fig_gap.png"><img alt="../../_images/fig_gap.png" class="align-center" src="../../_images/fig_gap.png" style="width: 50%;" /></a>
 <p>平均の代わりに最大値を取る <strong>Global Max Pooling</strong> もあるが，平均化の方が一般的である．</p>
 <p>Max Poolingと同じ <span class="math notranslate nohighlight">\(4 \times 4\)</span> の入力特徴マップ <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> に対して，<span class="math notranslate nohighlight">\(2 \times 2\)</span> のウィンドウサイズでストライド2のGlobal Average Poolingを適用すると次のようになる．</p>
 <div class="math notranslate nohighlight">
@@ -689,7 +693,7 @@ tensor([[[[2.5625]]]])
   <div class="footer-item">
     
 <p class="component-author">
-By The Jupyter Book Community
+By Hiroaki Aizawa
 </p>
 
   </div>
