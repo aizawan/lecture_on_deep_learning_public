@@ -169,3 +169,5 @@ notebooks/2_cnn/data
 notebooks/2_cnn/output
 notebooks/3_vit/data
 notebooks/3_vit/output
+
+*.code-workspace
