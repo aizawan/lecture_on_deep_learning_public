@@ -183,7 +183,6 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Convolutional Neural Networks</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">畳み込み層</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="pooling.html">Pooling層</a></li>
 <li class="toctree-l1"><a class="reference internal" href="batch_normalization.html">Batch Normalization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convolutional_neural_network.html">Convolutional Neural Network</a></li>
@@ -426,26 +425,21 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">畳み込み層</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">畳み込み層</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">二次元画像と線形層</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">具体例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">二次元画像と線形層</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">具体例</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">重みの局所性</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">具体例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">重みの局所性</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">具体例</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">重みの共有化</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">視覚的な理解</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">パディング</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">マルチチャネル化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">重みの共有化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">視覚的な理解</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">パディング</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">マルチチャネル化</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch">PyTorchにおける畳み込み</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">信号処理における畳み込みとの違い</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">信号処理における畳み込みとの違い</a></li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -458,14 +452,10 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
 <h1>畳み込み層<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
-<p>このノートブックでは，畳み込み層の概要を紹介する．</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="id2">
-<h1>畳み込み層<a class="headerlink" href="#id2" title="Link to this heading">#</a></h1>
 <a class="reference internal image-reference" href="../../_images/fig_cnn.png"><img alt="../../_images/fig_cnn.png" class="align-center" src="../../_images/fig_cnn.png" style="width: 50%;" /></a>
 <p><strong>畳み込みニューラルネットワーク（Convolutional Neural Network, CNN）</strong> は人間の視覚野から着想を得てモデル化されたニューラルネットワークであり，主に画像分野で利用されるニューラルネットワークの一種である．上図に示すように，CNNは畳み込み層とPooling層と呼ばれる層から構成され，MLPとは異なり，画像の特性を考慮した変換ができる能力を持っている．ここでは，まず畳み込み層について詳しく見ていく．</p>
-<section id="id3">
-<h2>二次元画像と線形層<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<section id="id2">
+<h2>二次元画像と線形層<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>高さが <span class="math notranslate nohighlight">\(H\)</span> で幅が <span class="math notranslate nohighlight">\(W\)</span> の二次元の画像</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -513,8 +503,8 @@ h_{H,1} &amp; h_{H,2} &amp; \cdots &amp; h_{H, W}
 \boldsymbol{H}_{i,j} = \sum_{k=1}^{H} \sum_{l=1}^{W} \boldsymbol{W}_{i,j,k,l} \cdot \boldsymbol{X}_{k,l} + b_{i,j}
 \]</div>
 <p>と綺麗に書ける．この式は線形層を画像形式で書き換えたので <span class="math notranslate nohighlight">\(k,l\)</span> の走査範囲が画像全体に渡っている．畳み込み層ではこの走査範囲をある位置から少し離れた領域に対してのみ適用する <strong>重みの局所性</strong> と位置に依存しない重みを持つ <strong>重みの共有化</strong> を備えた演算を行う．</p>
-<section id="id4">
-<h3>具体例<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<section id="id3">
+<h3>具体例<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <p>畳み込みの局所性の前に，上記の式の具体例を確認する．高さ <span class="math notranslate nohighlight">\(H=3\)</span>，幅 <span class="math notranslate nohighlight">\(W=3\)</span> の二次元画像を考え，位置 <span class="math notranslate nohighlight">\((i,j)=(2,2)\)</span> の場合の数式を書き出す．このとき，入力画像は</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -565,8 +555,8 @@ w_{2,2,3,1} &amp; w_{2,2,3,2} &amp; w_{2,2,3,3}
 <p>として，これまでの線形層の計算と同じであることがわかる．</p>
 </section>
 </section>
-<section id="id5">
-<h2>重みの局所性<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h2>重みの局所性<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <a class="reference internal image-reference" href="../../_images/fig_local_weight.png"><img alt="../../_images/fig_local_weight.png" class="align-center" src="../../_images/fig_local_weight.png" style="width: 50%;" /></a>
 <p>重みの局所性を説明するために，前述の2次元画像の線形層の数式における走査変数 <span class="math notranslate nohighlight">\(k,l\)</span> を位置 <span class="math notranslate nohighlight">\((i,j)\)</span> を始点とした範囲に変更する．つまり</p>
 <div class="math notranslate nohighlight">
@@ -579,8 +569,8 @@ k = i + a, \quad l = j + b
 \boldsymbol{H}_{i,j} = \sum_{a} \sum_{b} \boldsymbol{W}_{i,j,i+a,j+b} \cdot \boldsymbol{X}_{i+a,j+b} + b_{i,j}
 \]</div>
 <p>と書ける．ここで，<span class="math notranslate nohighlight">\(a\)</span> と <span class="math notranslate nohighlight">\(b\)</span> を画像サイズよりも小さい値を設定して考える．これにより，位置 <span class="math notranslate nohighlight">\((i, j)\)</span> における隠れ層の表現 <span class="math notranslate nohighlight">\(\boldsymbol{H}_{i,j}\)</span> は，周辺の画素にのみ依存するようになる．また画像中の隣接した画素は相関があることから，画像的な特性も考慮していると言える．これは <strong>重みの局所性</strong> と呼ばれる性質である．</p>
-<section id="id6">
-<h3>具体例<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<section id="id5">
+<h3>具体例<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>例えば，<span class="math notranslate nohighlight">\(a=-1,0,1\)</span> と <span class="math notranslate nohighlight">\(b=-1,0,1\)</span> で考える．そのように設定すると，画像中の一部の領域，つまり位置 <span class="math notranslate nohighlight">\((i, j)\)</span> を中心とした <span class="math notranslate nohighlight">\(3 \times 3\)</span> の局所領域だけに対して重みが適用される．数式で書くと，</p>
 <div class="math notranslate nohighlight">
 \[
@@ -598,8 +588,8 @@ k = i + a, \quad l = j + b
 <p>となり，局所的な演算ができていることが確認できる．</p>
 </section>
 </section>
-<section id="id7">
-<h2>重みの共有化<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<section id="id6">
+<h2>重みの共有化<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
 <a class="reference internal image-reference" href="../../_images/fig_weight_sharing.png"><img alt="../../_images/fig_weight_sharing.png" class="align-center" src="../../_images/fig_weight_sharing.png" style="width: 50%;" /></a>
 <p>ここまでの重み <span class="math notranslate nohighlight">\(\boldsymbol{W}_{i,j,i+a,j+b}\)</span> は位置に依存している．つまり，位置 <span class="math notranslate nohighlight">\((1,1)\)</span> と <span class="math notranslate nohighlight">\((10,10)\)</span> では，それぞれ， <span class="math notranslate nohighlight">\(\boldsymbol{W}_{1,1,1+a,1+b}\)</span> と  <span class="math notranslate nohighlight">\(\boldsymbol{W}_{10,10,10+a,10+b}\)</span> という異なる重みを持っている．<strong>重みの共有化</strong> とは位置に依存しない重み，つまり，</p>
 <div class="math notranslate nohighlight">
@@ -624,8 +614,8 @@ b_{i,j} = b
 \]</div>
 <p>となる．<span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> 上の <span class="math notranslate nohighlight">\((i,j)\)</span> が <span class="math notranslate nohighlight">\(s=3\)</span> としたとき <span class="math notranslate nohighlight">\((0,0) \rightarrow (3,3) \rightarrow (6,6) \cdots\)</span> と移動していることもわかるように，<span class="math notranslate nohighlight">\(s\)</span> 飛ばしで <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> の値を参照している．ストライドを調整することで，計算回数を減らしたり，出力のサイズを調整することができる．</p>
 </section>
-<section id="id8">
-<h2>視覚的な理解<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<section id="id7">
+<h2>視覚的な理解<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
 <p>ここまでの畳み込みの式を視覚的に理解する．<span class="math notranslate nohighlight">\((H,W)=(5,5)\)</span>の入力と共有化がなされた<span class="math notranslate nohighlight">\((a,b)=(3,3)\)</span>の重みを考える．</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -665,8 +655,8 @@ h_{3,1} &amp; h_{3,2} &amp; h_{3,3}
 <p>青色が実際に行われる計算であり，入力の一部に対してのみ重みが適用されること（重みの局所性）と共通した重みが適用されること（重みの共有化）が確認できるかと思う．この入力上の青色の領域はストライドの大きさで移動量が変わってくる．</p>
 <p>そして，要素単位の計算と内積の形で書けることも紹介した．結果的に，畳み込みは入力に含まれるパターンと重みが表すパターンの内積を計算していることに他ならない．つまり，入力と重みのパターンの類似度を計算していることになる．</p>
 </section>
-<section id="id9">
-<h2>パディング<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<section id="id8">
+<h2>パディング<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
 <a class="reference internal image-reference" href="../../_images/fig_padding.png"><img alt="../../_images/fig_padding.png" class="align-center" src="../../_images/fig_padding.png" style="width: 50%;" /></a>
 <p>上記の例のように重みのサイズやストライド数によっては入出力の解像度が低下することがある．<strong>パディング（Padding）</strong> は入出力の解像度を揃えるために，入力画像の縁に0などの特定の値を埋めて解像度を上げるテクニックである．上記の例を使って，0で値を埋めるゼロパディングを視覚的に説明する．</p>
 <p><span class="math notranslate nohighlight">\((5,5)\)</span> の入力 <span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span> と <span class="math notranslate nohighlight">\((3,3)\)</span> の重み <span class="math notranslate nohighlight">\(\boldsymbol{W}\)</span> を考える．ここにパディング <span class="math notranslate nohighlight">\(p = 1\)</span> を加えると，入力は次のように拡張される．</p>
@@ -684,8 +674,8 @@ h_{3,1} &amp; h_{3,2} &amp; h_{3,3}
 \end{split}\]</div>
 <p>この拡張された入力に畳み込み層を適用することで，入出力の解像度が揃う．<span class="math notranslate nohighlight">\(s=1\)</span>のとき，重みが<span class="math notranslate nohighlight">\(3\times 3\)</span>には<span class="math notranslate nohighlight">\(p=1\)</span>，<span class="math notranslate nohighlight">\(5\times 5\)</span>には<span class="math notranslate nohighlight">\(p=2\)</span>と覚えておくと良い．</p>
 </section>
-<section id="id10">
-<h2>マルチチャネル化<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<section id="id9">
+<h2>マルチチャネル化<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
 <p>ここまで，説明の簡略化のために，チャネルの概念を無視してきた．以下の図に示すように，一般的にカラー画像の場合，RGBの3チャネルの成分から画像が構成される．</p>
 <a class="reference internal image-reference" href="../../_images/fig_rgb.png"><img alt="../../_images/fig_rgb.png" class="align-center" src="../../_images/fig_rgb.png" style="width: 50%;" /></a>
 <p>つまり，入力は <span class="math notranslate nohighlight">\(C=3\)</span> 枚の <span class="math notranslate nohighlight">\(H \times W\)</span> の行列</p>
@@ -775,8 +765,8 @@ bias.shape: torch.Size([32])
 </div>
 </div>
 </section>
-<section id="id11">
-<h2>信号処理における畳み込みとの違い<a class="headerlink" href="#id11" title="Link to this heading">#</a></h2>
+<section id="id10">
+<h2>信号処理における畳み込みとの違い<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
 <p><strong>畳み込み（Convolution）</strong> とは，信号を処理するための基本的な演算であり，入力信号にカーネルと呼ばれるフィルタを適用することで，入力信号の特定の特徴を抽出したり、平滑化やエッジ検出などの処理を実現できる．</p>
 <p>連続信号における畳み込みは，変数 <span class="math notranslate nohighlight">\(z\)</span> に関する2つの関数 <span class="math notranslate nohighlight">\(f(x)\)</span> と <span class="math notranslate nohighlight">\(g(x)\)</span> の畳み込み <span class="math notranslate nohighlight">\((f * g)(x)\)</span> は</p>
 <div class="math notranslate nohighlight">
@@ -867,26 +857,21 @@ bias.shape: torch.Size([32])
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">畳み込み層</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">畳み込み層</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">二次元画像と線形層</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">具体例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">二次元画像と線形層</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">具体例</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">重みの局所性</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">具体例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">重みの局所性</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">具体例</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">重みの共有化</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">視覚的な理解</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">パディング</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">マルチチャネル化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">重みの共有化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">視覚的な理解</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">パディング</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">マルチチャネル化</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch">PyTorchにおける畳み込み</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">信号処理における畳み込みとの違い</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">信号処理における畳み込みとの違い</a></li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>
